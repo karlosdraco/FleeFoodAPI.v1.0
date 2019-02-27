@@ -1,10 +1,10 @@
 <?php
     class DB{
 
-        private $host = "127.0.0.1";
-        private $username = "root";
-        private $pass = "";
-        private $db = "fleefood";
+        private $host = "localhost";
+        private $username = "id8829941_fleefoodapi";
+        private $pass = "128roote9OU";
+        private $db = "id8829941_fleefood";
         private $conn;
         //private $query;
        
