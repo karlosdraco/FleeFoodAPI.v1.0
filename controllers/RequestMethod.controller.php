@@ -2,6 +2,7 @@
 
 require_once './config/RequestMethod.php';
 require_once 'controllers/user.controller.php';
+require_once 'controllers/login_user.controller.php';
 
 $api = new RequestMethod();
 
@@ -13,11 +14,17 @@ $api->get("vendors", function(){
 $api->get("user", function(){
     $controller = new user();
     $controller->fetch_single_data();
-}); 
+});
 
-$api->post("signin", function(){
+$api->post("signup", function(){
     $controller = new user();
-    $controller->signin();
-}); 
+    $controller->signup();
+});
+
+$api->post("login", function(){
+    $controller = new login_user();
+    $controller->login();
+
+});
 
 

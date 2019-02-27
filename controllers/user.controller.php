@@ -3,7 +3,7 @@
 
     class user{
         
-        public function signin(){
+        public function signup(){
             $signup = new user_model();
 
             $data = json_decode(file_get_contents("php://input"));
