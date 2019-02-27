@@ -48,7 +48,7 @@
                if($statement->rowCount() > 0){
                   return $statement->fetchAll(PDO::FETCH_ASSOC);
                }else{
-                  return http_response_code(204);;
+                  return false;
                   
                }
            }else{

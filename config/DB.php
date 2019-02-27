@@ -2,9 +2,9 @@
     class DB{
 
         private $host = "localhost";
-        private $username = "id8829941_fleefoodapi";
-        private $pass = "128roote9OU";
-        private $db = "id8829941_fleefood";
+        private $username = "root";
+        private $pass = "";
+        private $db = "fleefood";
         private $conn;
         //private $query;
        

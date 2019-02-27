@@ -32,7 +32,14 @@
         public function fetch_single_data(){
             $fetch = new user_model();
             if(isset($_GET['id'])){
-                echo json_encode($fetch->read_single($_GET['id']));
+                if($fetch->read_single($_GET['id'])){
+                    echo json_encode($fetch->read_single($_GET['id']));
+                }
+
+                else{
+                    echo json_encode(array('message' => 'Invalid User'));
+                }
+               
             }else{
                 echo json_encode(array('message' => 'Page not found'));
                 http_response_code(404);
