@@ -11,6 +11,8 @@
             
             if($login->login($data->email,  $data->password)){
                 echo json_encode(array('message' => 'Logged in'));
+                echo '{"Token":'.$login->token.' }';
+                setcookie("SNID", $login->token, time() + 60 * 60 * 24 * 7, '/', NULL,NULL, true);
             }
 
             else{

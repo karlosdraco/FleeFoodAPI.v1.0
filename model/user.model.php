@@ -17,23 +17,37 @@
           $this->conn = new DB();
        }
 
+       //**********CREATE**********/
        public function create(){
 
          $hashedPass = PASS_HASH::hash_pass($this->password);
 
-          $statement = $this->conn->query("INSERT INTO users(firstname, lastname, user_password, email, contact) 
-          VALUES(:firstname, :lastname, :pass, :email, :contact);");
-
-          $statement->bindParam(':firstname', $this->firstname);
-          $statement->bindParam(':lastname', $this->lastname);
-          $statement->bindParam(':pass', $hashedPass);
+      
+          $statement = $this->conn->query("SELECT email FROM users WHERE email=:email");
           $statement->bindParam(':email', $this->email);
-          $statement->bindParam(':contact', $this->contact);
           $statement->execute();
+
+          if($statement->rowCount() > 0){
+              return false;
+          }
+
+          else{
+            $statement = $this->conn->query("INSERT INTO users(firstname, lastname, user_password, email, contact) 
+            VALUES(:firstname, :lastname, :pass, :email, :contact);");
+  
+            $statement->bindParam(':firstname', $this->firstname);
+            $statement->bindParam(':lastname', $this->lastname);
+            $statement->bindParam(':pass', $hashedPass);
+            $statement->bindParam(':email', $this->email);
+            $statement->bindParam(':contact', $this->contact);
+            $statement->execute();
+          }
 
           return true;
        }
+        //**********CREATE**********/
 
+        //**********READ ALL**********/
        public function read(){
          $statement = $this->conn->query("SELECT firstname, lastname, email, contact FROM users");
            if($statement->execute()){
@@ -56,8 +70,10 @@
            }
        }
 
+       //**********READ SINGLE**********/
+
        public function update($id){
          $statement = $this->conn->query("UPDATE firstname, lastname, email, contact FROM users WHERE id=:id");
        }
-      
+      //**********READ SINGLE**********/
     }

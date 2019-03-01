@@ -3,6 +3,7 @@
 
     class user{
         
+        //**************************************************/
         public function signup(){
             $signup = new user_model();
 
@@ -13,16 +14,31 @@
             $signup->password = $data->password;
             $signup->contact = $data->contact;
 
-            if($signup->create()){
-                echo json_encode(array('message' => 'Account created'));
-                http_response_code(201);
+            if($signup->firstname == " " || $signup->lastname == " " || $signup->email == " " || $signup->password == " " || $signup->contact == " "){
+                echo json_encode(array('error' => 'Cannot leave form empty'));
+            }else if(!preg_match("/^[a-zA-Z]*$/", $signup->firstname) || !preg_match("/^[a-zA-Z]*$/", $signup->lastname)){
+                echo json_encode(array('error' => 'Invalid name'));
+            }else if (!filter_var($signup->email, FILTER_VALIDATE_EMAIL)){
+                echo json_encode(array('error' => 'Invalid email'));
             }
 
             else{
-                echo json_encode(array('message' => 'Account not created'));
-                http_response_code(405);
+                if($signup->create()){
+                    echo json_encode(array('message' => 'Account created'));
+                    http_response_code(201);
+                }else if(!$signup->create()){
+                    echo json_encode(array('message' => 'Email already exist'));
+                    return false;
+                }
+    
+                else{
+                    echo json_encode(array('message' => 'Account not created'));
+                    http_response_code(405);
+                }
             }
         }
+        //*************************************************/
+
 
         public function fetch_user_data(){
             $fetch = new user_model();
