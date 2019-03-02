@@ -6,6 +6,7 @@ require_once 'controllers/login_user.controller.php';
 
 $api = new RequestMethod();
 
+
 $api->get("vendors", function(){
     $controller = new user();
     $controller->fetch_user_data();
@@ -26,4 +27,10 @@ $api->post("login", function(){
     $controller->login();
 });
 
-
+$controller = new login_user();
+if($controller->isLoggedIn()){
+    echo "Logged in";
+}
+else{
+    echo "Not logged in";
+}
