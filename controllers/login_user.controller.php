@@ -10,31 +10,22 @@
             $data = json_decode(file_get_contents("php://input"));
             
             if($login->login($data->email,  $data->password)){
-                //echo json_encode(array('message' => 'Logged in'));
+
+                echo json_encode(array(
+                    'message' => 'Logged in',
+                    'authenticated' => true
+                ));
+              
                 echo '{"Token":'.$login->token.' }';
                 setcookie("SNID", $login->token, time() + 60 * 60 * 24 * 7, '/', NULL,NULL, true);
                 setcookie("SNID_", '1', time() + 60 * 60 * 24 * 3, '/', NULL,NULL, true);
             }
 
             else{
-                echo json_encode(array('message' => 'Incorrect email or password'));
-                http_response_code(401);
+                echo json_encode(array(
+                    'message' => 'Invalid email or password',
+                    'authenticated' => false
+                ));
             }
         }
-
-        public static function isLoggedIn(){
-            $login = new login_model();
-            
-            if($login->verify_token()){
-                return true;
-            }
-
-            else{
-                return false;
-            }
-            
-        }
-
-       
-    
     }

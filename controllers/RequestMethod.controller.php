@@ -27,10 +27,3 @@ $api->post("login", function(){
     $controller->login();
 });
 
-$controller = new login_user();
-if($controller->isLoggedIn()){
-    echo "Logged in";
-}
-else{
-    echo "Not logged in";
-}
