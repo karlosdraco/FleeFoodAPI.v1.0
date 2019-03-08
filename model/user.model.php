@@ -1,6 +1,7 @@
 <?php
 
     require_once './config/DB.php';
+    require_once './classes/emailer.php';
     require_once './classes/__PASSWORD_HASH__.php';
 
     class user_model{
@@ -17,11 +18,11 @@
           $this->conn = new DB();
        }
 
-       //**********CREATE**********/
+       //**********CREATE**********//
        public function create(){
 
-         $hashedPass = PASS_HASH::hash_pass($this->password);
-
+          $hashedPass = PASS_HASH::hash_pass($this->password);
+          $emailer = new Mailer();
       
           $statement = $this->conn->query("SELECT email FROM users WHERE email=:email");
           $statement->bindParam(':email', $this->email);
@@ -32,29 +33,37 @@
           }
 
           else{
-            $statement = $this->conn->query("INSERT INTO users(firstname, lastname, user_password, email, contact) 
-            VALUES(:firstname, :lastname, :pass, :email, :contact);");
+            $statement = $this->conn->query("INSERT INTO users(firstname, lastname, user_password, email, contact,verified) 
+            VALUES(:firstname, :lastname, :pass, :email, :contact, :verified);");
+            $verifiedValue = 0;
   
             $statement->bindParam(':firstname', $this->firstname);
             $statement->bindParam(':lastname', $this->lastname);
             $statement->bindParam(':pass', $hashedPass);
             $statement->bindParam(':email', $this->email);
             $statement->bindParam(':contact', $this->contact);
+            $statement->bindParam(':verified', $verifiedValue);
             $statement->execute();
+            
+            $emailer->verification_key($this->email);
+            $emailer->emailer($this->email, $this->firstname);
+
+            return true;
           }
 
-          return true;
+          
        }
-        //**********CREATE**********/
+        //**********CREATE**********//
 
-        //**********READ ALL**********/
+        //**********READ ALL**********//
        public function read(){
          $statement = $this->conn->query("SELECT firstname, lastname, email, contact FROM users");
            if($statement->execute()){
                return $statement->fetchAll(PDO::FETCH_ASSOC);
            }
        }
-
+       
+       //**********READ SINGLE**********//
        public function read_single($id){
          $statement = $this->conn->query("SELECT firstname, lastname, email, contact FROM users WHERE id=:id");
          $statement->bindParam(':id', $id);
@@ -69,11 +78,9 @@
                printf("Error: %s. \n", $statement->error);
            }
        }
-
-       //**********READ SINGLE**********/
-
+        //**********READ SINGLE**********//
        public function update($id){
-         $statement = $this->conn->query("UPDATE firstname, lastname, email, contact FROM users WHERE id=:id");
+         $statement = $this->conn->query("UPDATE users SET firstname=:fname,lastname=:lname,email=:email,contact=:contact WHERE id=:id");
        }
-      //**********READ SINGLE**********/
+     
     }
