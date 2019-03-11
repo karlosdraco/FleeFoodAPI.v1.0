@@ -78,7 +78,7 @@
                printf("Error: %s. \n", $statement->error);
            }
        }
-        //**********READ SINGLE**********//
+        //**********UPDATE**********//
        public function update($id){
          $statement = $this->conn->query("UPDATE users SET firstname=:fname,lastname=:lname,email=:email,contact=:contact WHERE id=:id");
        }

@@ -1,9 +1,10 @@
 <?php
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
-
+    
     require './config/PHPMailer-master/src/PHPMailer.php';
     require './config/PHPMailer-master/src/Exception.php';
+    require './config/PHPMailer-master/src/SMTP.php';
     require_once './config/DB.php';
 
     class Mailer{
@@ -29,20 +30,26 @@
             }else{
                 $statement->error;
             }
-
         }
 
         public function emailer($email, $firstname){
+            $mail = new PHPMailer(true);
           
-            /*$mail = new PHPMailer(true);
-
             try{
-                $mail->setFrom('fleefood.com');
+                $mail->isSMTP();
+                $mail->SMTPAuth = true;
+                $mail->Host = 'smtp.gmail.com';
+                $mail->Port = 587;
+                $mail->SMTPSecure = 'tls';
+                $mail->Username = "ninjacowfilms@gmail.com";
+                $mail->Password = "ghostphisher";
+                $mail->setFrom('ninjacowfilms@gmail.com', 'FleeFood');
                 $mail->addAddress($email, $firstname);
                 $mail->Subject = "FleeFood email verification";
                 $mail->isHTML(true);
-                $mail->body = "Hi ".$firstname." Welcome to <strong>FleeFood</strong> please click the button
-                to verify your email <button><a href='http://localhost/fleefood.v1/verification.php?email_verified=$this->vkey'>Verify email</a></button>";
+                $mail->Body = "Hi ".$firstname." Welcome to <strong>FleeFood</strong> please click the button
+                to verify your email <button><a href='http://localhost/fleefood_API/user_email_verification?email=$email&email_verification_key=$this->vkey'>Verify email</a></button>";
+                $mail->send();
             }catch (Exception $e)
             {
                
@@ -52,21 +59,7 @@
             {
              
                echo $e->getMessage();
-            }*/
-            $from = 'FleeFood <fleefood@admin.com>';
-            $to = $firstname." <".$email.">";
-            $subject = 'Email Verification';
-            $message = "Hi ".$firstname." Welcome to <strong>FleeFood</strong> please click the button
-            to verify your email <button><a href='http://localhost/fleefood.v1/verification.php?email_verified=$this->vkey'>Verify email</a></button>";
-            $headers = 'From: ' . $from;
- 
-                if (!mail($to, $subject, $message, $headers)){
-                    echo "Error.";
-                }
-                else{
-                    echo "Message sent.";
-                }
-         
+            }
         }
 
 
