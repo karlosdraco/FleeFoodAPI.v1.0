@@ -24,8 +24,20 @@
                 if($statement->rowCount() > 0){
                     $data = $statement->fetch();
                     if(password_verify($password, $data['user_password'])){
-                        $this->token = $login_token->token($this->conn, $data['id'], $this->token);
-                        return true;
+
+                        $statement = $this->conn->query("SELECT verified FROM users WHERE email='$email'");
+                        
+                        if($statement->execute()){
+                            $row = $statement->fetch();
+                            
+                            if($row['verified'] == 1){
+                                $this->token = $login_token->token($this->conn, $data['id'], $this->token);
+                                return true;
+                            }else{
+                                echo json_encode(array('email_verify_check' => 'Please verify your email to login'));
+                                return false;
+                            }
+                        }
                     }else{
                         return false;
                     }
