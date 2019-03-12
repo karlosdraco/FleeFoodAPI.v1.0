@@ -9,7 +9,7 @@
 
     class Mailer{
 
-        public $vkey;
+        private $vkey;
 
         public function verification_key($email){
             $conn = new DB();

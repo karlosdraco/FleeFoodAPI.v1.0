@@ -1,11 +1,11 @@
 <?php
-   require_once './model/user.model.php';
+   require_once './model/signup_user.model.php';
 
-    class user{
+    class signup_user{
         
         //**************************************************/
         public function signup(){
-            $signup = new user_model();
+            $signup = new signup_user_model();
 
             $data = json_decode(file_get_contents("php://input"));
             $signup->firstname = $data->firstname;
@@ -40,7 +40,7 @@
         //*************************************************/
 
 
-        public function fetch_user_data(){
+        /*public function fetch_user_data(){
             $fetch = new user_model();
             echo json_encode($fetch->read());
         }
@@ -60,5 +60,5 @@
                 echo json_encode(array('message' => 'Page not found'));
                 http_response_code(404);
             }
-        }
+        }*/
     }

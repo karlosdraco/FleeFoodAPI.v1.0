@@ -46,16 +46,11 @@
                 if($statement->execute()){
                     if($statement->rowCount() > 0){
                         return true;
-                    }
-
-                    else{
+                    }else{
                         return false;
                     }
                 }
-                
-            }
-
-            else{
+            }else{
                 return false;
             }
         }

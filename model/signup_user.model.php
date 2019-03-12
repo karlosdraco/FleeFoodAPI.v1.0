@@ -4,7 +4,7 @@
     require_once './classes/emailer.php';
     require_once './classes/__PASSWORD_HASH__.php';
 
-    class user_model{
+    class signup_user_model{
 
        public $conn;
        public $firstname;
@@ -35,17 +35,20 @@
           else{
             $statement = $this->conn->query("INSERT INTO users(firstname, lastname, user_password, email, contact,verified) 
             VALUES(:firstname, :lastname, :pass, :email, :contact, :verified);");
-            $verifiedValue = 0;
+            $defaultValue = 0;
   
             $statement->bindParam(':firstname', $this->firstname);
             $statement->bindParam(':lastname', $this->lastname);
             $statement->bindParam(':pass', $hashedPass);
             $statement->bindParam(':email', $this->email);
             $statement->bindParam(':contact', $this->contact);
-            $statement->bindParam(':verified', $verifiedValue);
+            $statement->bindParam(':verified', $defaultValue);
             $statement->execute();
             
+            //PASS EMAIL TO VERIFICATION KEY
             $emailer->verification_key($this->email);
+
+            //PASS EMAIL AND FIRSTNAME TO EMAILER 
             $emailer->emailer($this->email, $this->firstname);
 
             return true;
@@ -53,7 +56,7 @@
 
           
        }
-        //**********CREATE**********//
+        
 
         //**********READ ALL**********//
        public function read(){

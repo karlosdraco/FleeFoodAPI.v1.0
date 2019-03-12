@@ -15,20 +15,21 @@
                 $isVerified = 1;
                 $statement->bindParam(':verified', $isVerified);
                 $statement->bindParam(':email', $_GET['email']);
-                $statement->execute();
+                
+                if($statement->execute()){
+                  $statement = $conn->query("DELETE FROM verificationcode WHERE verification=:vkey");
+                  $statement->bindParam(':vkey', $_GET['email_verification_key']);
+                  $statement->execute();
+                }
             }
            
           }else{
-            echo "No Verification key";
+            header('location: http://localhost/fleefood.v1');
           }
       }
     }else{
         echo "Invalid Verification key";
     }
     include 'verification.php';
-
-
-
-
 ?>
 
