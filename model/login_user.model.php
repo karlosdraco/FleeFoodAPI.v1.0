@@ -7,6 +7,7 @@
 
         public $conn;
         public $token;
+        public $notValidated;
 
         function __construct()
         {
@@ -34,7 +35,7 @@
                                 $this->token = $login_token->token($this->conn, $data['id'], $this->token);
                                 return true;
                             }else{
-                                echo json_encode(array('email_verify_check' => 'Please verify your email to login'));
+                                $this->notValidated = false;
                                 return false;
                             }
                         }

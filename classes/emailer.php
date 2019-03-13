@@ -39,10 +39,10 @@
                 $mail->isSMTP();
                 $mail->SMTPAuth = true;
                 $mail->Host = 'smtp.gmail.com';
+                $mail->Username = "ninjacowfilms@gmail.com";
+                $mail->Password = "ghostphisher17";
                 $mail->Port = 587;
                 $mail->SMTPSecure = 'tls';
-                $mail->Username = "ninjacowfilms@gmail.com";
-                $mail->Password = "ghostphisher";
                 $mail->setFrom('ninjacowfilms@gmail.com', 'FleeFood');
                 $mail->addAddress($email, $firstname);
                 $mail->Subject = "FleeFood email verification";

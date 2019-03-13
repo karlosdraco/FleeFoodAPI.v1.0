@@ -14,12 +14,30 @@
             $signup->password = $data->password;
             $signup->contact = $data->contact;
 
-            if($signup->firstname == " " || $signup->lastname == " " || $signup->email == " " || $signup->password == " " || $signup->contact == " "){
-                echo json_encode(array('error' => 'Cannot leave form empty'));
+            if($signup->firstname == "" || $signup->lastname == "" || $signup->email == "" || $signup->password == "" || $signup->contact == ""){
+                echo json_encode(
+                    array(
+                        'error' => 'Cannot leave form empty',
+                        'errorFlag' => true
+                    ));
             }else if(!preg_match("/^[a-zA-Z]*$/", $signup->firstname) || !preg_match("/^[a-zA-Z]*$/", $signup->lastname)){
-                echo json_encode(array('error' => 'Invalid name'));
+                echo json_encode(
+                    array(
+                        'error' => 'Invalid name',
+                        'errorFlag' => true
+                    ));
+            }else if(!preg_match("/^[0-9]*$/", $signup->contact)){
+                echo json_encode(
+                    array(
+                        'error' => 'Invalid contact',
+                        'errorFlag' => true
+                    ));
             }else if (!filter_var($signup->email, FILTER_VALIDATE_EMAIL)){
-                echo json_encode(array('error' => 'Invalid email'));
+                echo json_encode(
+                    array(
+                        'error' => 'Invalid email',
+                        'errorFlag' => true
+                    ));
             }
 
             else{
@@ -27,7 +45,10 @@
                     echo json_encode(array('message' => 'Account created'));
                     http_response_code(201);
                 }else if(!$signup->create()){
-                    echo json_encode(array('message' => 'Email already exist'));
+                    echo json_encode(array(
+                        'error' => 'Email already exist',
+                        'errorFlag' => true
+                    ));
                     return false;
                 }
     

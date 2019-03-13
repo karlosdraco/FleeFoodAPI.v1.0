@@ -22,10 +22,19 @@
             }
 
             else{
-                echo json_encode(array(
-                    'message' => 'Invalid email or password',
-                    'authenticated' => false
-                ));
+
+                if($login->notValidated == false){
+                    echo json_encode(array(
+                        'message' => 'Please Verify your email to login',
+                        'authenticated' => false
+                    ));
+                }else{
+                    echo json_encode(array(
+                        'message' => 'Invalid email or password',
+                        'authenticated' => false
+                    ));
+                }
+               
             }
         }
     }
