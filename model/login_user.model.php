@@ -8,6 +8,8 @@
         public $conn;
         public $token;
         public $notValidated;
+        public $noRecords;
+        public $user_id;
 
         function __construct()
         {
@@ -36,14 +38,14 @@
                                 return true;
                             }else{
                                 $this->notValidated = false;
-                                return false;
                             }
                         }
                     }else{
                         return false;
                     }
                 }else{
-                    echo json_encode(array('message' => 'No records'));
+                   $this->noRecords = false;
+                   return false;
                 }
             }
         }
@@ -58,6 +60,8 @@
                 
                 if($statement->execute()){
                     if($statement->rowCount() > 0){
+                        $data = $statement->fetch();
+                        $this->user_id = $data['user_id'];
                         return true;
                     }else{
                         return false;

@@ -34,6 +34,7 @@
 
         public function emailer($email, $firstname){
             $mail = new PHPMailer(true);
+            $verificationLink = "http://localhost/fleefood_API/user_email_verification?email=$email&email_verification_key=$this->vkey";
           
             try{
                 $mail->isSMTP();
@@ -48,16 +49,14 @@
                 $mail->Subject = "FleeFood email verification";
                 $mail->isHTML(true);
                 $mail->Body = "Hi ".$firstname." Welcome to <strong>FleeFood</strong> please click the button
-                to verify your email <button><a href='http://localhost/fleefood_API/user_email_verification?email=$email&email_verification_key=$this->vkey'>Verify email</a></button>";
+                to verify your email <a style='color:  #57baf3;' href='http://localhost/fleefood_API/user_email_verification?email=$email&email_verification_key=$this->vkey'>$verificationLink</a>";
                 $mail->send();
             }catch (Exception $e)
             {
-               
                echo $e->errorMessage();
             }
             catch (\Exception $e)
             {
-             
                echo $e->getMessage();
             }
         }

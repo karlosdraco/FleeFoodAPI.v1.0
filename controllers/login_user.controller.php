@@ -16,24 +16,23 @@
                     'authenticated' => true
                 ));
               
-                echo '{"Token":'.$login->token.' }';
-                setcookie("SNID", $login->token, time() + 60 * 60 * 24 * 7, '/', NULL,NULL, true);
-                setcookie("SNID_", '1', time() + 60 * 60 * 24 * 3, '/', NULL,NULL, true);
+                //echo '{"Token":'.$login->token.' }';
+                setcookie("SNID", $login->token, time() + 60 * 60 * 24 * 7, '/');
+                setcookie("SNID_", '1', time() + 60 * 60 * 24 * 3, '/');
             }
 
-            else{
+            else if($login->notValidated){
+                echo json_encode(array(
+                    'message' => 'Please verify your email to login',
+                    'authenticated' => false
+                ));
 
-                if($login->notValidated == false){
-                    echo json_encode(array(
-                        'message' => 'Please Verify your email to login',
-                        'authenticated' => false
-                    ));
-                }else{
-                    echo json_encode(array(
-                        'message' => 'Invalid email or password',
-                        'authenticated' => false
-                    ));
-                }
+            }else{
+                echo json_encode(array(
+                    'message' => 'Invalid email or password',
+                    'authenticated' => false
+                ));
+                
                
             }
         }

@@ -1,2 +1,5 @@
 RewriteEngine On
 RewriteRule ^([^/]+)/? index.php?url=$1 [L,QSA]
+Header set Access-Control-Allow-Methods: "*"
+Header set Access-Control-Allow-Headers: "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+
