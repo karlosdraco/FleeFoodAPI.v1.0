@@ -3,11 +3,9 @@
 require_once './config/RequestMethod.php';
 require_once 'controllers/signup_user.controller.php';
 require_once 'controllers/login_user.controller.php';
-
-
+require_once 'controllers/profile.controller.php';
 
 $api = new RequestMethod();
-
 
 //SIGN UP LOGIN
 $api->post("signup", function(){
@@ -21,8 +19,10 @@ $api->post("login", function(){
 });
 
 //USER PROFILE
+
 $api->get("profile", function(){
-  echo "CHINGCHONG";
+    $controller = new ProfileController();
+    $controller->fetchProfile();
 });
 
 

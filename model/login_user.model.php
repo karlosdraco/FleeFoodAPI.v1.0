@@ -49,8 +49,8 @@
                 }
             }
         }
+        
         //************LOGIN AUTHENTICATION WITH TOKEN**************/
-
         public function verify_token(){
             if(isset($_COOKIE['SNID'])){
         
@@ -61,8 +61,7 @@
                 if($statement->execute()){
                     if($statement->rowCount() > 0){
                         $data = $statement->fetch();
-                        $this->user_id = $data['user_id'];
-                        return true;
+                        return $this->user_id = $data['user_id'];
                     }else{
                         return false;
                     }
