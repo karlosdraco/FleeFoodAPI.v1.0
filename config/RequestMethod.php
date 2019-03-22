@@ -17,4 +17,20 @@
                 }
             }
         }
+
+        public function put($url, $function){
+            if($_SERVER['REQUEST_METHOD'] == 'PUT'){
+                if($_GET['url'] == $url){
+                    $function->__invoke();
+                }
+            }
+        }
+        
+        public function delete($url, $function){
+            if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
+                if($_GET['url'] == $url){
+                    $function->__invoke();
+                }
+            }
+        }
     }

@@ -52,10 +52,10 @@
         
         //************LOGIN AUTHENTICATION WITH TOKEN**************/
         public function verify_token(){
-            if(isset($_COOKIE['SNID'])){
+            if(isset($_COOKIE['auth_token'])){
         
                 $statement = $this->conn->query("SELECT user_id FROM token WHERE token=:token");
-                $hashed = sha1($_COOKIE['SNID']);
+                $hashed = sha1($_COOKIE['auth_token']);
                 $statement->bindParam(":token", $hashed);
                 
                 if($statement->execute()){

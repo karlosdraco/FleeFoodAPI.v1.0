@@ -26,35 +26,33 @@
       
           $statement = $this->conn->query("SELECT email FROM users WHERE email=:email");
           $statement->bindParam(':email', $this->email);
-          $statement->execute();
-
-          if($statement->rowCount() > 0){
+          if($statement->execute()){
+            if($statement->rowCount() > 0){
               return false;
-          }
-
-          else{
-            $statement = $this->conn->query("INSERT INTO users(firstname, lastname, user_password, email, contact,verified) 
-            VALUES(:firstname, :lastname, :pass, :email, :contact, :verified);");
-            $defaultValue = 0;
+            }else{
+              $statement = $this->conn->query("INSERT INTO users(firstname, lastname, user_password, email, contact,verified) 
+              VALUES(:firstname, :lastname, :pass, :email, :contact, :verified);");
+              $defaultValue = 0;
+    
+              $statement->bindParam(':firstname', $this->firstname);
+              $statement->bindParam(':lastname', $this->lastname);
+              $statement->bindParam(':pass', $hashedPass);
+              $statement->bindParam(':email', $this->email);
+              $statement->bindParam(':contact', $this->contact);
+              $statement->bindParam(':verified', $defaultValue);
+              $statement->execute();
+                
+              //PASS EMAIL TO VERIFICATION KEY
+              $emailer->verification_key($this->email);
   
-            $statement->bindParam(':firstname', $this->firstname);
-            $statement->bindParam(':lastname', $this->lastname);
-            $statement->bindParam(':pass', $hashedPass);
-            $statement->bindParam(':email', $this->email);
-            $statement->bindParam(':contact', $this->contact);
-            $statement->bindParam(':verified', $defaultValue);
-            $statement->execute();
-            
-            //PASS EMAIL TO VERIFICATION KEY
-            $emailer->verification_key($this->email);
+              //PASS EMAIL AND FIRSTNAME TO EMAILER 
+              $emailer->emailer($this->email, $this->firstname);
+  
+              return true;
+            }
 
-            //PASS EMAIL AND FIRSTNAME TO EMAILER 
-            $emailer->emailer($this->email, $this->firstname);
-
-            return true;
           }
-
-          
+      
        }
         
 

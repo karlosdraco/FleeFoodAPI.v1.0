@@ -20,16 +20,28 @@ $api->post("login", function(){
     $controller->login();
 });
 
-$api->post("logout", function(){
+$api->delete("logout", function(){
     $controller = new logOut();
     $controller->logout();
 });
 
 //USER PROFILE
+$api->get("loggedIn", function(){
+    $controller = new ProfileController();
+    $controller->getUser();
+});
 
 $api->get("profile", function(){
     $controller = new ProfileController();
-    $controller->fetchProfile();
+    $controller->getUserName();
+});
+
+
+
+//UPDATE PROFILE
+$api->put("profile", function(){
+    $controller = new ProfileController();
+    $controller->updateUser();
 });
 
 

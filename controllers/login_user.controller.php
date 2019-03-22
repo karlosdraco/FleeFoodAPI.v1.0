@@ -17,8 +17,8 @@
                 ));
               
                 //echo '{"Token":'.$login->token.' }';
-                setcookie("SNID", $login->token, time() + 60 * 60 * 24 * 7, '/');
-                setcookie("SNID_", '1', time() + 60 * 60 * 24 * 3, '/');
+                setcookie("auth_token", $login->token, time() + 60 * 60 * 24 * 7, '/', NULL, NULL, FALSE);
+                setcookie("auth_token_", '1', time() + 60 * 60 * 24 * 3, '/');
             }
 
             else if($login->notValidated){
