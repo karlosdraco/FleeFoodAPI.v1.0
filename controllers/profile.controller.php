@@ -38,20 +38,22 @@
         }
 
         public function updateUser(){
+            
             $fetchProfileData = new Profile();
             $verified_user_id = new login_user();
+            
             $uid = $verified_user_id->isLoggedIn();
 
             $data = json_decode(file_get_contents("php://input"));
             $fetchProfileData->bio = $data->bio;
             $fetchProfileData->bdate = $data->birthdate;
             $fetchProfileData->age = $data->age;
-            $fetchProfileData->gender = $data->gender;
-            $fetchProfileData->occupation = $data->occupation;
             $fetchProfileData->add1 = $data->addressLine1;
             $fetchProfileData->add2 = $data->addressLine2;
+            $fetchProfileData->occupation = $data->occupation;
             $fetchProfileData->country = $data->country;
             $fetchProfileData->zip = $data->zipCode;
+            $fetchProfileData->gender = $data->gender;
 
             if($fetchProfileData->create($uid)){
                 $fetchProfileData->update($uid);
