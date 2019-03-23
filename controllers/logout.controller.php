@@ -11,7 +11,7 @@
                     setcookie("auth_token", '', time() - 60 * 60 * 24 * 7, '/');
                     setcookie("auth_token_", '1', time() - 60 * 60 * 24 * 3, '/');
                     http_response_code(200);
-                    return json_encode(
+                    echo json_encode(
                         array(
                             "message" => 'Logged out',
                             "error" => false

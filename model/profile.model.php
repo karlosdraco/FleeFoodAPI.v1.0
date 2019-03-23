@@ -69,10 +69,16 @@
         }
 
         public function readUserName($name){
-            $statement = $this->conn->query("SELECT id,firstname,lastname,email,contact FROM users WHERE firstname=:name");
+
+            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:name");
             $statement->bindParam(':name', $name);
             if($statement->execute()){
                 if($statement->rowCount() > 0){
+                    $data =  $statement->fetch();
+                    $statement = $this->conn->query("SELECT users.id, users.firstname, users.lastname,
+                    users.email, users.contact, user_info.* FROM users LEFT JOIN user_info ON users.id=user_info.user_id WHERE users.id=:uid");
+                    $statement->bindParam(':uid', $data['id']);
+                    $statement->execute();
                     return $statement->fetchAll(PDO::FETCH_ASSOC);
                 }
                 else{
