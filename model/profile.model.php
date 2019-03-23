@@ -30,8 +30,8 @@
                     $statement = $this->conn->query(
                         "INSERT INTO user_info(
                             user_id, bio, birthdate, age,
-                            gender, occupation, adress_line_1, adress_line_2, 
-                            country,zip_code
+                            gender, occupation, addressLine1, addressLine2, 
+                            country,zipCode
                         ) VALUES(
                             :uid, :bio, :bdate, :age, :gender, :occupation, :add1, :add2,
                             :country, :zip 
@@ -91,7 +91,7 @@
 
         public function update($uid){
            $statement = $this->conn->query("UPDATE user_info SET bio=:bio, birthdate=:bdate, age=:age, 
-           gender=:gender, occupation=:occupation, adress_line_1=:add1, adress_line_2=:add2, country=:country, zip_code=:zipCode WHERE user_id=:uid");
+           gender=:gender, occupation=:occupation, addressLine1=:add1, addressLine2=:add2, country=:country, zipCode=:zipCode WHERE user_id=:uid");
 
             $statement->bindParam(':uid', $uid);
             $statement->bindParam(':bio', $this->bio);
