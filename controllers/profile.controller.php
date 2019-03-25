@@ -4,7 +4,7 @@
 
     class ProfileController{
 
-        public function getUser(){
+        /*public function getUser(){
             $verified_user_id = new login_user();
             $fetchProfileData = new Profile();
             
@@ -19,7 +19,7 @@
                         )
                     );
                 } 
-        }
+        }*/
 
         public function getUserName(){
             $fetchProfileData = new Profile();

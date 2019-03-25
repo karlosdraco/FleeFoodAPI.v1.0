@@ -38,7 +38,7 @@
         public function isLoggedIn(){
             $isVerified = new login_model();
             $uid = $isVerified->verify_token();
-
+            
             if($uid){
                 return $uid;
             }else{

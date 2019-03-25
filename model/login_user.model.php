@@ -71,6 +71,17 @@
             }
         }
 
+        public function loginCredentials($uid){
+            
+            $statement = $this->conn->query("SELECT id, firstname FROM users WHERE id=:uid");
+            $statement->bindParam(":uid", $uid);
+            
+            if($statement->execute()){
+               return $data = $statement->fetch();
+            }
+
+        }
+
 
     
     }

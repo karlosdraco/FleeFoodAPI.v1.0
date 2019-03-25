@@ -5,6 +5,7 @@ require_once 'controllers/signup_user.controller.php';
 require_once 'controllers/login_user.controller.php';
 require_once 'controllers/logout.controller.php';
 require_once 'controllers/profile.controller.php';
+require_once "./model/login_user.model.php";
 
 
 $api = new RequestMethod();
@@ -25,12 +26,24 @@ $api->delete("logout", function(){
     $controller->logout();
 });
 
-//USER PROFILE
+
 $api->get("loggedIn", function(){
-    $controller = new ProfileController();
-    $controller->getUser();
+    $controller = new login_user();
+    $model = new login_model();
+
+    $uid = $controller->isLoggedIn();
+    $data = $model->loginCredentials($uid);    
+    echo json_encode(
+        array(
+            'id' => $data['id'],
+            'firstname' => $data['firstname'],
+            'loggedIn' => true
+        )
+    );
 });
 
+
+//USER PROFILE
 $api->get("profile", function(){
     $controller = new ProfileController();
     $controller->getUserName();
