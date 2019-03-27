@@ -4,23 +4,6 @@
 
     class ProfileController{
 
-        /*public function getUser(){
-            $verified_user_id = new login_user();
-            $fetchProfileData = new Profile();
-            
-            $uid = $verified_user_id->isLoggedIn();
-                if($fetchProfileData->read($uid)){
-                    echo json_encode($fetchProfileData->read($uid));
-                }else{
-                    echo json_encode(
-                        array(
-                            'message' => "Invalid id",
-                            'error' => true 
-                        )
-                    );
-                } 
-        }*/
-
         public function getUserName(){
             $fetchProfileData = new Profile();
                 if(isset($_GET['name'])){
@@ -54,6 +37,10 @@
             $fetchProfileData->country = $data->country;
             $fetchProfileData->zip = $data->zipCode;
             $fetchProfileData->gender = $data->gender;
+
+
+
+
 
             if($fetchProfileData->create($uid)){
                 $fetchProfileData->update($uid);

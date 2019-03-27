@@ -1,11 +1,18 @@
 <?php
 
+//CONFIGURATION
 require_once './config/RequestMethod.php';
+
+//CONTROLLER
 require_once 'controllers/signup_user.controller.php';
 require_once 'controllers/login_user.controller.php';
 require_once 'controllers/logout.controller.php';
 require_once 'controllers/profile.controller.php';
+require_once 'controllers/upload.controller.php';
+
+//MODEL
 require_once "./model/login_user.model.php";
+
 
 
 $api = new RequestMethod();
@@ -26,7 +33,7 @@ $api->delete("logout", function(){
     $controller->logout();
 });
 
-
+//LOGGED IN USER CREDENTIALS
 $api->get("loggedIn", function(){
     $controller = new login_user();
     $model = new login_model();
@@ -49,12 +56,17 @@ $api->get("profile", function(){
     $controller->getUserName();
 });
 
-
-
 //UPDATE PROFILE
 $api->put("profile", function(){
     $controller = new ProfileController();
     $controller->updateUser();
 });
+
+$api->post("upload", function(){
+    $upload = new UploadController();
+    $upload->UploadProfile();
+});
+
+
 
 

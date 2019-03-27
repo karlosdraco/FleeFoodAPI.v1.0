@@ -1,7 +1,6 @@
 <?php
 
     require_once './config/DB.php';
-
     class Profile{
 
         public $conn;
@@ -75,7 +74,7 @@
             if($statement->execute()){
                 if($statement->rowCount() > 0){
                     $data =  $statement->fetch();
-                    $statement = $this->conn->query("SELECT users.id, users.firstname, users.lastname,
+                    $statement = $this->conn->query("SELECT users.id, users.profile_image, users.firstname, users.lastname,
                     users.email, users.contact, user_info.* FROM users LEFT JOIN user_info ON users.id=user_info.user_id WHERE users.id=:uid");
                     $statement->bindParam(':uid', $data['id']);
                     $statement->execute();
@@ -104,5 +103,8 @@
             $statement->bindParam(':country', $this->country);
             $statement->bindParam(':zipCode', $this->zip);
             $statement->execute();
+
+
+
         }
     }
