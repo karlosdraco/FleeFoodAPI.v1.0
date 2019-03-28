@@ -7,6 +7,8 @@
     
     class S3Upload{
 
+        public $imgUrl;
+
         public function __construct($foldername, $subfolder)
         {
             $config = require_once './config/S3-config.php';
@@ -54,11 +56,20 @@
             } catch (Exception $e) {
                 die('Error:' . $e->getMessage());
             }
-        
-            echo json_encode(
-                array(
-                    'message' => 'Profile Image Uploaded'
-                )
-            );
+
+            try {
+                // Get the object.
+                $this->imgUrl = $s3->getObjectUrl($bucketName,$keyName);
+            
+                // Display the object in the browser.
+                echo json_encode(
+                    array(
+                        'message' => 'Profile Image Uploaded'
+                    )
+                );
+               
+            } catch (S3Exception $e) {
+                echo $e->getMessage() . PHP_EOL;
+            }
         }
     }

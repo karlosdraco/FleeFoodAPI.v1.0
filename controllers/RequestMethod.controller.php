@@ -44,6 +44,7 @@ $api->get("loggedIn", function(){
         array(
             'id' => $data['id'],
             'firstname' => $data['firstname'],
+            'imgUrl' => $data['profile_image'],
             'loggedIn' => true
         )
     );
