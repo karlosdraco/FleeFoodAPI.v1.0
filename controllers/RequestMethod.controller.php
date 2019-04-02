@@ -44,6 +44,8 @@ $api->get("loggedIn", function(){
         array(
             'id' => $data['id'],
             'firstname' => $data['firstname'],
+            'lastname' => $data['lastname'],
+            'email' => $data['email'],
             'imgUrl' => $data['profile_image'],
             'loggedIn' => true
         )
@@ -63,7 +65,7 @@ $api->put("profile", function(){
     $controller->updateUser();
 });
 
-$api->post("upload", function(){
+$api->put("upload", function(){
     $upload = new UploadController();
     $upload->UploadProfile();
 });

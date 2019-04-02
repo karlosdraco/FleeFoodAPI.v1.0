@@ -73,7 +73,7 @@
 
         public function loginCredentials($uid){
             
-            $statement = $this->conn->query("SELECT id, firstname,profile_image FROM users WHERE id=:uid");
+            $statement = $this->conn->query("SELECT id, firstname, lastname, email, contact, profile_image FROM users WHERE id=:uid");
             $statement->bindParam(":uid", $uid);
             
             if($statement->execute()){
