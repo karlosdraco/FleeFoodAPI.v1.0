@@ -1,6 +1,9 @@
-<?php 
+<?php
+
+    //MODEL
     require_once './model/login_user.model.php';
     require_once './model/upload.model.php';
+    //CONTROLLER
     require_once 'controllers/login_user.controller.php';
     require_once './classes/S3-upload-form.php';
 
@@ -15,13 +18,13 @@
             $uid = $verified_user_id->isLoggedIn();
             
             //USER CREDENTIALS
-            $data= $loginCredentials->loginCredentials($uid);
+            $data = $loginCredentials->loginCredentials($uid);
             //PASSED USER ID AND FIRSTNAME IN AWS S3 FOLDER NAME
             $folderOwner = $data['id'].'.'.$data['firstname'];
 
-            //UPLOAD IMAGE TO AWS S3 AND RETURN KEYNAME
+            //UPLOAD IMAGE TO AWS S3 AND RETURN URL
             $uploadProfile = new S3Upload($folderOwner, "profile Images");
-            //INSERT KEYNAME TO DATABASE
+            //INSERT URL TO DATABASE
             $insertProfileImage->InsertImageLink($uid, $uploadProfile->imgUrl);
 
         }

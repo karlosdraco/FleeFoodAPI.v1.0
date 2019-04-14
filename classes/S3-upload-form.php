@@ -64,7 +64,7 @@
                 // Display the object in the browser.
                 echo json_encode(
                     array(
-                        'message' => 'Profile Image Uploaded'
+                        'message' => 'Profile image Uploaded'
                     )
                 );
                

@@ -9,6 +9,7 @@ require_once 'controllers/login_user.controller.php';
 require_once 'controllers/logout.controller.php';
 require_once 'controllers/profile.controller.php';
 require_once 'controllers/upload.controller.php';
+require_once 'controllers/post.controller.php';
 
 //MODEL
 require_once "./model/login_user.model.php";
@@ -65,9 +66,16 @@ $api->put("profile", function(){
     $controller->updateUser();
 });
 
+//UPLOAD PROFILE IMAGE
 $api->put("upload", function(){
     $upload = new UploadController();
     $upload->UploadProfile();
+});
+
+//POST FOOD ITEM
+$api->post("post", function(){
+    $controller = new PostController();
+    $controller->create_post();
 });
 
 
