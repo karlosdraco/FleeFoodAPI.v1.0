@@ -1,6 +1,7 @@
 <?php 
 
     require_once "./model/login_user.model.php";
+    require_once "./classes/input-authentication.php";
 
     class login_user{
         
@@ -9,6 +10,7 @@
             $login = new login_model();
             $data = json_decode(file_get_contents("php://input"));
 
+            
             if($login->login($data->email,  $data->password)){
 
                 echo json_encode(array(

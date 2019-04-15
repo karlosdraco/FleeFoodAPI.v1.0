@@ -78,6 +78,12 @@ $api->post("post", function(){
     $controller->create_post();
 });
 
+//READ FOOD POST - POST FEED
+$api->get("feed", function(){
+    $controller = new PostController();
+    $controller->read_post();
+});
+
 
 
 

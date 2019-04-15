@@ -22,7 +22,6 @@
             $this->conn = new DB();
         }
 
-
         public function create_post(){
 
             $statement = $this->conn->query("INSERT INTO food_post(user_id, food_name, food_description, 
@@ -44,8 +43,16 @@
             }else{
                 return false;
             }
-            
+        }
 
+        public function read_post(){
+            
+            $statement = $this->conn->query("SELECT users.id, users.profile_image, users.firstname, users.lastname,
+            users.email, users.contact, food_post.* FROM users LEFT JOIN food_post ON users.id=food_post.user_id 
+            ORDER BY food_post.id DESC");
+            $statement->execute();
+            
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
     }
