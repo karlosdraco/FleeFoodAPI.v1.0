@@ -10,9 +10,12 @@ require_once 'controllers/logout.controller.php';
 require_once 'controllers/profile.controller.php';
 require_once 'controllers/upload.controller.php';
 require_once 'controllers/post.controller.php';
+require_once 'controllers/follow.controller.php';
+
 
 //MODEL
 require_once "./model/login_user.model.php";
+
 
 
 
@@ -82,6 +85,21 @@ $api->post("post", function(){
 $api->get("feed", function(){
     $controller = new PostController();
     $controller->read_post();
+});
+
+$api->post("upload", function(){
+    $upload = new UploadController();
+    $upload->uploadFoodPostGallery();
+});
+
+$api->get("follow", function(){
+    $followStatus = new followController();
+    $followStatus->followStatus();
+});
+
+$api->post("follow", function(){
+    $follow = new followController();
+    $follow->followUser();
 });
 
 

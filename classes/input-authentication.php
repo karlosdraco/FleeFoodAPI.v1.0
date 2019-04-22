@@ -3,7 +3,7 @@
     class inputAuthentication{
 
         public function isEmpty($input){
-            if(empty($input) || $input = " "){
+            if($input == ""){
                 return false;
             }else{
                 return true;

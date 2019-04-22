@@ -6,6 +6,7 @@
 
         public $conn;
         public $uid;
+        public $foodImg;
         public $foodName;
         public $foodDesc;
         public $foodPrice;
@@ -49,7 +50,7 @@
             
             $statement = $this->conn->query("SELECT users.id, users.profile_image, users.firstname, users.lastname,
             users.email, users.contact, food_post.* FROM users RIGHT JOIN food_post ON users.id=food_post.user_id 
-            ORDER BY food_post.id DESC");
+            ORDER BY food_post.post_date DESC");
             $statement->execute();
             
             return $statement->fetchAll(PDO::FETCH_ASSOC);
