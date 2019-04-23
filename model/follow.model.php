@@ -49,7 +49,7 @@
             if($statement->execute()){
                 
                 $data = $statement->fetch();
-                $statement = $this->conn->query("SELECT user_id FROM follow_user WHERE user_id=:uid");
+                $statement = $this->conn->query("SELECT user_id FROM follow_user WHERE user_id=:uid AND follow_id=:uid");
                 $uid = $data['id'];
                 $statement->bindParam(':uid', $uid);
                 $statement->execute();
@@ -70,7 +70,8 @@
                 $data = $statement->fetch();
                 $uid = $data['id'];
 
-                $statement = $this->conn->query("SELECT follow_id FROM follow_user WHERE user_id=:uid");
+                $statement = $this->conn->query("SELECT follow_user.follow_id,users.firstname, users.lastname, users.email,users.profile_image
+                 FROM follow_user RIGHT JOIN users ON follow_user.follow_id = users.id WHERE user_id=:uid");
                 $statement->bindParam(':uid', $uid);
                 $statement->execute();
                 return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -86,7 +87,8 @@
                 $data = $statement->fetch();
                 $fid = $data['id'];
                 
-                $statement = $this->conn->query("SELECT user_id FROM follow_user WHERE follow_id=:fid");
+                $statement = $this->conn->query("SELECT follow_user.user_id, users.firstname,users.lastname,users.email,users.profile_image 
+                FROM follow_user RIGHT JOIN users ON follow_user.user_id=users.id WHERE follow_id=:fid");
                 $statement->bindParam(':fid', $fid);
                 $statement->execute();
                 return $statement->fetchAll(PDO::FETCH_ASSOC);

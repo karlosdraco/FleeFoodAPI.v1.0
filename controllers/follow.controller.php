@@ -20,13 +20,11 @@ require_once 'login_user.controller.php';
                 }else{
                     $follow->unfollowUser($uid->isLoggedIn(), $_GET['name']);
                 }
-
             }
         }
 
-        
-
         public function followStatus(){
+            
             $isFollowing = new follow();
             $uid = new login_user();
 
