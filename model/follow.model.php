@@ -61,4 +61,35 @@
                 }
             }
         }
+
+        public function showFollowers($name){
+            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:fname");
+            $statement->bindParam(':fname', $name);
+            
+            if($statement->execute()){
+                $data = $statement->fetch();
+                $uid = $data['id'];
+
+                $statement = $this->conn->query("SELECT follow_id FROM follow_user WHERE user_id=:uid");
+                $statement->bindParam(':uid', $uid);
+                $statement->execute();
+                return $statement->fetchAll(PDO::FETCH_ASSOC);
+            }
+           
+        }
+
+        public function showFollowing($name){
+            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:fname");
+            $statement->bindParam(':fname', $name);
+            
+            if($statement->execute()){
+                $data = $statement->fetch();
+                $fid = $data['id'];
+                
+                $statement = $this->conn->query("SELECT user_id FROM follow_user WHERE follow_id=:fid");
+                $statement->bindParam(':fid', $fid);
+                $statement->execute();
+                return $statement->fetchAll(PDO::FETCH_ASSOC);
+            }
+        }
     }

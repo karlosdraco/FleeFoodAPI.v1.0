@@ -1,15 +1,31 @@
 <?php
     require_once './model/profile.model.php';
+    require_once './model/follow.model.php';
     require_once './controllers/login_user.controller.php';
     require_once './classes/input-authentication.php';
+   
 
     class ProfileController{
 
         public function getUserName(){
             $fetchProfileData = new Profile();
+            $follow = new follow();
+                
                 if(isset($_GET['name'])){
                     if($fetchProfileData->readUserName($_GET['name'])){
-                        echo json_encode($fetchProfileData->readUserName($_GET['name']));
+                        $followTemp = array(
+                            'followers' => $follow->showFollowers($_GET['name']), 
+                            'following' => $follow->showFollowing($_GET['name'])
+                        );
+                        $profileData = array(
+                            'user' => $fetchProfileData->readUserName($_GET['name'])
+                        );
+
+                        $profileData = array_merge($profileData['user'][0], $followTemp);
+                        echo json_encode(array(
+                            'profile_data' => $profileData
+                          )
+                        );
                     }else{
                         echo json_encode(
                             array(

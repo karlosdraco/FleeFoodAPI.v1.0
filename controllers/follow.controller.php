@@ -22,7 +22,6 @@ require_once 'login_user.controller.php';
                 }
 
             }
-           
         }
 
         
@@ -48,8 +47,8 @@ require_once 'login_user.controller.php';
             }else{
                 http_response_code(401);
             }
-
-           
         }
+
+        
 
     }
