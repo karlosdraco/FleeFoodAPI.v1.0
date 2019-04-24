@@ -56,4 +56,13 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        public function read_post_single($uid){
+            
+            $statement = $this->conn->query("SELECT * FROM food_post WHERE user_id=:uid ORDER BY post_date DESC");
+            $statement->bindParam(':uid', $uid);
+            $statement->execute();
+
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
     }

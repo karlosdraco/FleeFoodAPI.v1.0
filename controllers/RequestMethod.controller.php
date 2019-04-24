@@ -81,22 +81,31 @@ $api->post("post", function(){
     $controller->create_post();
 });
 
-//READ FOOD POST - POST FEED
+//READ POST SINGLE 
+$api->get("post", function(){
+    $controller = new PostController();
+    $controller->read_post_single();
+});
+
+//READ SINGLE FOOD POST - POST FEED
 $api->get("feed", function(){
     $controller = new PostController();
     $controller->read_post();
 });
 
+//UPLOAD FOOD GALLERY
 $api->post("upload", function(){
     $upload = new UploadController();
     $upload->uploadFoodPostGallery();
 });
 
+//GET FOLLOWER STATUS USER
 $api->get("follow", function(){
     $followStatus = new followController();
     $followStatus->followStatus();
 });
 
+//GET FOLLOW STATUS
 $api->post("follow", function(){
     $follow = new followController();
     $follow->followUser();

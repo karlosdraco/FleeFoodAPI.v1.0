@@ -15,7 +15,9 @@
                     if($fetchProfileData->readUserName($_GET['name'])){
                         $followTemp = array(
                             'followers' => $follow->showFollowers($_GET['name']), 
-                            'following' => $follow->showFollowing($_GET['name'])
+                            'following' => $follow->showFollowing($_GET['name']),
+                            'followerCount' => $follow->followerCount(),
+                            'followingCount' => $follow->followingCount()
                         );
                         $profileData = array(
                             'user' => $fetchProfileData->readUserName($_GET['name'])

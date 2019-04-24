@@ -5,6 +5,8 @@
     class follow{
 
         public $conn;
+        private $followerCount;
+        private $followingCount;
 
         public function __construct()
         {
@@ -74,9 +76,14 @@
                  FROM follow_user RIGHT JOIN users ON follow_user.follow_id = users.id WHERE user_id=:uid");
                 $statement->bindParam(':uid', $uid);
                 $statement->execute();
+
+                if($statement->rowCount() > 0){
+                    $this->followerCount = $statement->rowCount();
+                }else{
+                    $this->followerCount = 0;
+                }
                 return $statement->fetchAll(PDO::FETCH_ASSOC);
             }
-           
         }
 
         public function showFollowing($name){
@@ -91,7 +98,22 @@
                 FROM follow_user RIGHT JOIN users ON follow_user.user_id=users.id WHERE follow_id=:fid");
                 $statement->bindParam(':fid', $fid);
                 $statement->execute();
+
+                if($statement->rowCount() > 0){
+                    $this->followingCount = $statement->rowCount();
+                }else{
+                    $this->followingCount = 0;
+                }
+
                 return $statement->fetchAll(PDO::FETCH_ASSOC);
             }
+        }
+
+        public function followerCount(){
+           return $this->followerCount;
+        }
+
+        public function followingCount(){
+           return $this->followingCount;
         }
     }

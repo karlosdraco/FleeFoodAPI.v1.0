@@ -45,21 +45,22 @@ require_once 'login_user.controller.php';
                     http_response_code(401);
                 }
             //}
-
-            /*INPUT AUTHENTICATION AND VERIFICATION*/
-            //                                     //
-            /*INPUT AUTHENTICATION AND VERIFICATION*/
         }
 
         public function read_post(){
             $post = new Post();
-            $loggedIn = new login_user();
-            
-
-            $fetchData = $post->read_post($loggedIn->isLoggedIn());
+    
+            $fetchData = $post->read_post();
             echo json_encode($fetchData);
         
-           
+        }
+
+        public function read_post_single(){
+            $post = new Post();
+            $loggedIn = new login_user();
+
+            $fetchData = $post->read_post_single($loggedIn->isLoggedIn());
+            echo json_encode($fetchData);
         }
     }
     
