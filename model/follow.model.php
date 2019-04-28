@@ -44,23 +44,26 @@
             }
         }
 
-        public function getFollowStatus($name){
+        public function getFollowStatus($name, $fid){
             $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:firstname");
             $statement->bindParam(':firstname', $name);
             
             if($statement->execute()){
                 
                 $data = $statement->fetch();
-                $statement = $this->conn->query("SELECT user_id FROM follow_user WHERE user_id=:uid AND follow_id=:uid");
+                $statement = $this->conn->query("SELECT user_id FROM follow_user WHERE user_id=:uid AND follow_id=:fid");
                 $uid = $data['id'];
                 $statement->bindParam(':uid', $uid);
-                $statement->execute();
+                $statement->bindParam(':fid', $fid);
 
-                if($statement->rowCount() > 0){
-                    return true;
-                }else{
-                    return false;
+                if($statement->execute()){
+                    if($statement->rowCount() > 0){
+                        return true;
+                    }else{
+                        return false;
+                    }
                 }
+               
             }
         }
 

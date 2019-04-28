@@ -13,7 +13,7 @@ require_once 'login_user.controller.php';
             $uid = new login_user();
             
             if(isset($_GET['name'])){
-                $isFollowing = $follow->getFollowStatus($_GET['name']);
+                $isFollowing = $follow->getFollowStatus($_GET['name'], $uid->isLoggedIn());
                 
                 if(!$isFollowing){
                     $follow->followUser($uid->isLoggedIn(), $_GET['name']);   
@@ -29,7 +29,7 @@ require_once 'login_user.controller.php';
             $uid = new login_user();
 
             if($uid->isLoggedIn()){
-                if($isFollowing->getFollowStatus($_GET['name'])){
+                if($isFollowing->getFollowStatus($_GET['name'], $uid->isLoggedIn())){
                     echo json_encode(array(
                        'name' => $_GET['name'],
                        'following' => true,

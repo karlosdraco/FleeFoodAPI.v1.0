@@ -81,13 +81,13 @@ $api->post("post", function(){
     $controller->create_post();
 });
 
-//READ POST SINGLE 
+//READ SINGLE FOOD POST - POST FEED
 $api->get("post", function(){
     $controller = new PostController();
     $controller->read_post_single();
 });
 
-//READ SINGLE FOOD POST - POST FEED
+//READ ALL USER POST
 $api->get("feed", function(){
     $controller = new PostController();
     $controller->read_post();

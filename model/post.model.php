@@ -56,11 +56,24 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        public function read_post_single($uid){
+        public function read_post_single($name){
+
+            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:fname");
+            $statement->bindParam(':fname', $name);
             
-            $statement = $this->conn->query("SELECT * FROM food_post WHERE user_id=:uid ORDER BY post_date DESC");
-            $statement->bindParam(':uid', $uid);
-            $statement->execute();
+            if($statement->execute()){
+                if($statement->rowCount() > 0){
+                    $data = $statement->fetch();
+                    $uid = $data['id'];
+                    $statement = $this->conn->query("SELECT * FROM food_post WHERE user_id=:uid ORDER BY post_date DESC");
+                    $statement->bindParam(':uid', $uid);
+                    $statement->execute();
+                }else{
+                    echo 'Prepared statement error';
+                }
+            }
+            
+           
 
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
