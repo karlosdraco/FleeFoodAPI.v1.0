@@ -32,7 +32,7 @@
             }
 
                 $keyName = $foldername.'/'.$subfolder.'/'. basename($_FILES["file"]['name']);
-                $pathInS3 = 'https://s3.us-east-1.amazonaws.com/' . $bucketName . '/' . $keyName;
+                $pathInS3 = 's3-ap-southeast-1.amazonaws.com/' . $bucketName . '/' . $keyName;
 
                 try {
 
@@ -54,7 +54,7 @@
                 }
                 try {
                     // Get the object.
-                    $this->imgUrl = $s3->getObjectUrl($bucketName,$keyName);
+                    $this->imgUrl = $s3->getObjectUrl($bucketName, $keyName);
                 
                     // Display the object in the browser.
                     echo json_encode(

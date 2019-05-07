@@ -26,7 +26,8 @@
             else if($login->notValidated){
                 echo json_encode(array(
                     'message' => 'Please verify your email to login',
-                    'authenticated' => false
+                    'authenticated' => false,
+                    'path' => 'landing-page.html'
                 ));
 
             }else{

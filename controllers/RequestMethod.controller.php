@@ -51,7 +51,8 @@ $api->get("loggedIn", function(){
             'lastname' => $data['lastname'],
             'email' => $data['email'],
             'imgUrl' => $data['profile_image'],
-            'loggedIn' => true
+            'loggedIn' => true,
+            'path' => 'home.html'
         )
     );
 });
@@ -70,7 +71,7 @@ $api->put("profile", function(){
 });
 
 //UPLOAD PROFILE IMAGE
-$api->put("upload", function(){
+$api->post("upload", function(){
     $upload = new UploadController();
     $upload->UploadProfile();
 });
