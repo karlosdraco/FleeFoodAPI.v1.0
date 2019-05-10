@@ -98,6 +98,7 @@ $api->get("feed", function(){
 $api->post("food", function(){
     $upload = new UploadController();
     $upload->uploadFoodPostGallery();
+    session_destroy();
 });
 
 //GET FOLLOWER STATUS USER
