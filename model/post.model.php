@@ -38,6 +38,7 @@
             $statement->bindParam(':delFee', $this->deliveryFee);
             $statement->bindParam(':add1', $this->address1);
             $statement->bindParam(':add2', $this->address2);
+            $_SESSION['food_name'] = $this->foodName;
             
             if($statement->execute()){
                 return true;
@@ -72,9 +73,6 @@
                     echo 'Prepared statement error';
                 }
             }
-            
-           
-
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 

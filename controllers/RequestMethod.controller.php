@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 //CONFIGURATION
 require_once './config/RequestMethod.php';
 
@@ -95,7 +95,7 @@ $api->get("feed", function(){
 });
 
 //UPLOAD FOOD GALLERY
-$api->post("upload", function(){
+$api->post("food", function(){
     $upload = new UploadController();
     $upload->uploadFoodPostGallery();
 });

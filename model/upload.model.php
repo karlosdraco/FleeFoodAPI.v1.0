@@ -4,13 +4,14 @@
     class Upload{
 
         public $conn;
+        private $FoodName;
 
         public function __construct()
         {
             $this->conn = new DB();    
         }
 
-        public function InsertImageLink($uid, $keyname){
+        public function profileImageLink($uid, $keyname){
 
             $statement = $this->conn->query("SELECT id FROM users WHERE id=:id");
             $statement->bindParam(':id', $uid);
@@ -38,18 +39,33 @@
       
         public function uploadFoodPostGallery($uid, $keyname){
 
-            $statement = $this->conn->query("SELECT id FROM food_post WHERE id=:id");
-            $statement->bindParam(':id', $uid);
+            $this->FoodName = $_SESSION['food_name'];
+
+            $statement = $this->conn->query("SELECT id FROM food_post WHERE user_id=:uid AND food_name=:fname AND post_completed=0");
+            $statement->bindParam(':uid', $uid);
+            $statement->bindParam(':fname', $this->FoodName);
 
             if($statement->execute()){
                 if($statement->rowCount() > 0){
+
                     $data = $statement->fetch();
                     $statement = $this->conn->query("INSERT INTO food_image_gallery(user_id, food_id, image_link)
-                    VALUES(':uid',':fid', 'imgurl')");
+                    VALUES(:uid,:fid,:imgurl)");
 
-                    $statement->bindPara(':uid', $uid);
+                    $statement->bindParam(':uid', $uid);
                     $statement->bindParam(':fid', $data['id']);
                     $statement->bindParam(':imgurl', $keyname);
+                    
+                    if($statement->execute()){
+                        $statement = $this->conn->query("UPDATE food_post SET post_completed=1 
+                        WHERE user_id=:uid AND food_name=:fname AND post_completed=0");
+
+                        $statement->bindParam(':uid', $uid);
+                        $statement->bindParam(':fname', $this->FoodName);
+                        $statement->execute();
+                    }else{
+                        return false;
+                    }
 
                 }else{
                     return false;

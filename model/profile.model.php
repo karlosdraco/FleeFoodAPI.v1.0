@@ -46,6 +46,7 @@
                     $statement->bindParam(':add2', $this->add2);
                     $statement->bindParam(':country', $this->country);
                     $statement->bindParam(':zip', $this->zip);
+                    
                     $statement->execute();
                 }
             }

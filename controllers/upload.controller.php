@@ -15,8 +15,6 @@
             $loginCredentials = new login_model();
             $insertProfileImage = new Upload();
 
-            if(isset($_GET['image']) == "profile"){
-                
                 //USER LOGGED IN ID
                 $uid = $verified_user_id->isLoggedIn();
             
@@ -26,23 +24,19 @@
                 $folderOwner = $data['id'].'.'.$data['firstname'];
     
                 //UPLOAD IMAGE TO AWS S3 AND RETURN URL
-                $uploadProfile = new S3Upload($folderOwner, "profile Images");
+                $uploadProfile = new S3Upload($folderOwner, "Profile images");
                 //INSERT URL TO DATABASE
-                $insertProfileImage->InsertImageLink($uid, $uploadProfile->imgUrl);
-    
-            }else{
-                http_response_code(401);
-            }
+                $insertProfileImage->profileImageLink($uid, $uploadProfile->imgUrl);
+
         }
 
         public function uploadFoodPostGallery(){
+            
             $verified_user_id = new login_user();
             $loginCredentials = new login_model();
             $uploadFoodPost = new Upload();
 
             
-            if(isset($_GET['image']) == "food"){
-                
                 //USER LOGGED IN ID
                 $uid = $verified_user_id->isLoggedIn();
                 
@@ -56,8 +50,5 @@
                 
                 //INSERT URL TO DATABASE
                 $uploadFoodPost->uploadFoodPostGallery($uid, $foodImage->imgUrl);
-            }else{
-                http_response_code(401);
-            }
         }
     }
