@@ -3,9 +3,13 @@
     require_once './config/AWS/aws-autoloader.php';
     use Aws\S3\S3Client;
 	use Aws\S3\Exception\S3Exception;
-    
-    class S3Upload{
+    use function GuzzleHttp\json_encode;
+
+class S3Upload{
         public $imgUrl;
+        public $response;
+        public $errorUploadResponse;
+
         public function __construct($foldername, $subfolder)
         {
             $config = require_once './config/S3-config.php';
@@ -30,41 +34,64 @@
                 // return a json object.
                 die("Error: " . $e->getMessage());
             }
-
-                $keyName = $foldername.'/'.$subfolder.'/'. basename($_FILES["file"]['name']);
+               
+                $image = basename($_FILES["file"]['name']);
+                $keyName = $foldername.'/'.$subfolder.'/'. $image;
                 $pathInS3 = 's3-ap-southeast-1.amazonaws.com/' . $bucketName . '/' . $keyName;
 
-                try {
+                $file_extension = pathinfo($_FILES["file"]['name'], PATHINFO_EXTENSION);
 
-                    // Uploaded:
-                    $file = $_FILES["file"]['tmp_name'];
-                    $s3->putObject(
-                        array(
-                            'Bucket'=>$bucketName,
-                            'Key' =>  $keyName,
-                            'SourceFile' => $file,
-                            'StorageClass' => 'REDUCED_REDUNDANCY'
-                        )
+                $allowed_image_extension = array(
+                    "png",
+                    "jpg",
+                    "jpeg"
+                );
+
+                if(!in_array($file_extension, $allowed_image_extension)){
+                    $this->errorUploadResponse = 0;
+                    $this->response = array(
+                        'message' => "Error invalid file type",
+                        'message_code' => $this->errorUploadResponse
                     );
-                
-                } catch (S3Exception $e) {
-                    die('Error:' . $e->getMessage());
-                } catch (Exception $e) {
-                    die('Error:' . $e->getMessage());
-                }
-                try {
-                    // Get the object.
-                    $this->imgUrl = $s3->getObjectUrl($bucketName, $keyName);
-                
-                    // Display the object in the browser.
-                    echo json_encode(
-                        array(
-                            'message' => 'Image successfully uploaded'
-                        )
+                }else if($_FILES["file"]['size'] > 5000000){
+                    $this->errorUploadResponse = 0;
+                    $this->response = array(
+                        'message' => "Maximum image size is 5mb",
+                        'message_code' => $this->errorUploadResponse
                     );
-                   
-                } catch (S3Exception $e) {
-                    echo $e->getMessage() . PHP_EOL;
-                }
+                }else{
+                    $this->errorUploadResponse = 1;
+                    try {
+                        // Uploaded:
+                        $file = $_FILES["file"]['tmp_name'];
+                        $s3->putObject(
+                            array(
+                                'Bucket'=>$bucketName,
+                                'Key' =>  $keyName,
+                                'SourceFile' => $file,
+                                'StorageClass' => 'REDUCED_REDUNDANCY'
+                            )
+                        );
+                    
+                    } catch (S3Exception $e) {
+                        die('Error:' . $e->getMessage());
+                    } catch (Exception $e) {
+                        die('Error:' . $e->getMessage());
+                    }
+                    try {
+                        // Get the object.
+                        $this->imgUrl = $s3->getObjectUrl($bucketName, $keyName);
+                        // Display the object in the browser.
+                        echo json_encode(
+                            $this->response = array(
+                                'message' => 'Image successfully uploaded',
+                                'message_code' => $this->errorUploadResponse
+                            )
+                        );
+                       
+                    } catch (S3Exception $e) {
+                        echo $e->getMessage() . PHP_EOL;
+                    }
         }
     }
+}

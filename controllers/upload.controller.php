@@ -1,6 +1,7 @@
 <?php
+use function GuzzleHttp\json_encode;
 
-    //MODEL
+//MODEL
     require_once './model/login_user.model.php';
     require_once './model/upload.model.php';
     //CONTROLLER
@@ -26,8 +27,13 @@
                 //UPLOAD IMAGE TO AWS S3 AND RETURN URL
                 $uploadProfile = new S3Upload($folderOwner, "Profile images");
                 //INSERT URL TO DATABASE
-                $insertProfileImage->profileImageLink($uid, $uploadProfile->imgUrl);
 
+                if($uploadProfile->errorUploadResponse == 1){
+                    $insertProfileImage->profileImageLink($uid, $uploadProfile->imgUrl);
+                }else if($uploadProfile->errorUploadResponse == 0){
+                    echo json_encode($uploadProfile->response);
+                }
+               
         }
 
         public function uploadFoodPostGallery(){
@@ -42,6 +48,7 @@
                 
                 //USER CREDENTIALS
                 $data = $loginCredentials->loginCredentials($uid);
+
                 //PASSED USER ID AND FIRSTNAME IN AWS S3 FOLDER NAME
                 $folderOwner = $data['id'].'.'.$data['firstname'];
     
@@ -50,5 +57,6 @@
                 
                 //INSERT URL TO DATABASE
                 $uploadFoodPost->uploadFoodPostGallery($uid, $foodImage->imgUrl);
+
         }
     }
