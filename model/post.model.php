@@ -17,6 +17,7 @@
         public $address2;
         public $long;
         public $lat;
+        public $userReport;
 
         public function __construct()
         {
@@ -66,7 +67,8 @@
                 if($statement->rowCount() > 0){
                     $data = $statement->fetch();
                     $uid = $data['id'];
-                    $statement = $this->conn->query("SELECT * FROM food_post WHERE user_id=:uid ORDER BY post_date DESC");
+                    $statement = $this->conn->query("SELECT users.id,food_image_gallery.image_link, food_post.* FROM users RIGHT JOIN food_post ON users.id=food_post.user_id 
+                    RIGHT JOIN food_image_gallery ON food_post.id=food_image_gallery.food_id WHERE users.id = :uid ORDER BY food_post.post_date DESC");
                     $statement->bindParam(':uid', $uid);
                     $statement->execute();
                 }else{
