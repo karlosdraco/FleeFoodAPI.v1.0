@@ -68,10 +68,11 @@
             }
         }
 
-        public function readUserName($name){
+        public function readUserName($name, $id){
 
-            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:name");
+            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:name AND id=:uid");
             $statement->bindParam(':name', $name);
+            $statement->bindParam(':uid', $id);
             if($statement->execute()){
                 if($statement->rowCount() > 0){
                     $data = $statement->fetch();

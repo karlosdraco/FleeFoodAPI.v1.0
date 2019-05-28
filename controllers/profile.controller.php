@@ -11,16 +11,17 @@
             $fetchProfileData = new Profile();
             $follow = new follow();
                 
-                if(isset($_GET['name'])){
-                    if($fetchProfileData->readUserName($_GET['name'])){
+                if(isset($_GET['name']) && isset($_GET['id'])){
+                    if($fetchProfileData->readUserName($_GET['name'], $_GET['id'])){
                         $followTemp = array(
                             'followers' => $follow->showFollowers($_GET['name']), 
                             'following' => $follow->showFollowing($_GET['name']),
                             'followerCount' => $follow->followerCount(),
                             'followingCount' => $follow->followingCount()
                         );
+
                         $profileData = array(
-                            'user' => $fetchProfileData->readUserName($_GET['name'])
+                            'user' => $fetchProfileData->readUserName($_GET['name'], $_GET['id'])
                         );
 
                         $profileData = array_merge($profileData['user'][0], $followTemp);

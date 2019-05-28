@@ -11,12 +11,11 @@ require_once 'controllers/profile.controller.php';
 require_once 'controllers/upload.controller.php';
 require_once 'controllers/post.controller.php';
 require_once 'controllers/follow.controller.php';
+require_once 'controllers/order.controller.php';
 
 
 //MODEL
 require_once "./model/login_user.model.php";
-
-
 
 
 $api = new RequestMethod();
@@ -111,6 +110,16 @@ $api->get("follow", function(){
 $api->post("follow", function(){
     $follow = new followController();
     $follow->followUser();
+});
+
+//REQUEST ORDER
+$api->post("order", function(){
+    $orderController = new OrderController();
+    $orderController->orderRequest();
+});
+
+$api->get("orders", function(){
+    
 });
 
 

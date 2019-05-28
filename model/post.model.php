@@ -58,10 +58,11 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        public function read_post_single($name){
+        public function read_post_single($name, $id){
 
-            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:fname");
+            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:fname AND id=:uid");
             $statement->bindParam(':fname', $name);
+            $statement->bindParam(':uid', $id);
             
             if($statement->execute()){
                 if($statement->rowCount() > 0){

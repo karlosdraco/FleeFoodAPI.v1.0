@@ -17,7 +17,6 @@ require_once 'login_user.controller.php';
              $uid = $loggedIn->isLoggedIn();
 
              //SUBMIT JSON FORM
-
              $data = json_decode(file_get_contents("php://input"));
              
              $post->uid = $uid;
@@ -59,8 +58,8 @@ require_once 'login_user.controller.php';
             $post = new Post();
             $loggedIn = new login_user();
 
-            if(isset($_GET['name'])){
-                $fetchData = $post->read_post_single($_GET['name']);
+            if(isset($_GET['name']) && isset($_GET['id'])){
+                $fetchData = $post->read_post_single($_GET['name'], $_GET['id']);
                 echo json_encode($fetchData);
             }
 
