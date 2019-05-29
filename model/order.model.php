@@ -14,11 +14,24 @@ class Order{
     }
 
     public function orderRequest(){
-        $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id) VALUES(:fid, :uid, :bid);");
+        $statement = $this->conn->query("SELECT buyer_id, food_id FROM orders WHERE food_id=:fid AND buyer_id=:bid");
         $statement->bindParam(':fid', $this->food_id);
-        $statement->bindParam(':uid', $this->user_id);
         $statement->bindParam(':bid', $this->buyer_id);
-        $statement->execute();
+        
+        if($statement->execute()){
+            if($statement->rowCount() > 0){
+                return false;
+            }else{
+                $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id) VALUES(:fid, :uid, :bid);");
+                $statement->bindParam(':fid', $this->food_id);
+                $statement->bindParam(':uid', $this->user_id);
+                $statement->bindParam(':bid', $this->buyer_id);
+                $statement->execute();
+                return true;
+            }
+           
+        }
+        
     }
 
     public function readOrder($name, $id){
@@ -30,8 +43,8 @@ class Order{
             if($statement->rowCount() > 0){
                 $data = $statement->fetch();
                 $uid = $data['id'];
-                $statement = $this->conn->query("SELECT orders.id, orders.food_id, orders.buyer_id, orders.user_id, 
-                                                 users.firstname, users.lastname, users.email, food_post.food_name, 
+                $statement = $this->conn->query("SELECT orders.id, orders.food_id, orders.buyer_id, orders.user_id, orders.request, 
+                                                 users.firstname, users.lastname, users.contact, users.profile_image, food_post.food_name, 
                                                  food_image_gallery.image_link FROM orders
                                                  RIGHT JOIN users ON orders.buyer_id = users.id
                                                  RIGHT JOIN food_post ON orders.food_id = food_post.id
@@ -43,6 +56,17 @@ class Order{
         }
 
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function requestStatusUpdate($request){
+    
+        $statement = $this->conn->query("UPDATE orders SET request=:req WHERE food_id=:fid AND buyer_id=:bid AND user_id=:uid");
+        $statement->bindParam(':req', $request);
+        $statement->bindParam(':fid', $this->food_id);
+        $statement->bindParam(':bid', $this->buyer_id);
+        $statement->bindParam(':uid', $this->user_id);
+        $statement->execute();
+         
     }
 
 }

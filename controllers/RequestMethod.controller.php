@@ -123,6 +123,11 @@ $api->get("orders", function(){
     $orderController->fetchOrderSingle();
 });
 
+$api->put("orders", function(){
+    $orderController = new OrderController();
+    $orderController->updateRequestStatus();
+});
+//END REQUEST ORDER ENDPOINT
 
 
 
