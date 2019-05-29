@@ -30,11 +30,15 @@ class Order{
             if($statement->rowCount() > 0){
                 $data = $statement->fetch();
                 $uid = $data['id'];
-                $statement = $this->conn->query("SELECT users.firstname, users.lastname, users.email, users.imgUrl,
-                orders.id, orders.buyer_id, food_post.food_name FROM orders RIGHT JOIN orders ON users.id = orders.buyer_id
-                RIGHT JOIN food_image_gallery ON food_post.id = food_image_gallery.food_id WHERE users.id=:id");
-                $statement->bindParam(':id', $uid);
-                $statement->execute();
+                $statement = $this->conn->query("SELECT orders.id, orders.food_id, orders.buyer_id, orders.user_id, 
+                                                 users.firstname, users.lastname, users.email, food_post.food_name, 
+                                                 food_image_gallery.image_link FROM orders
+                                                 RIGHT JOIN users ON orders.buyer_id = users.id
+                                                 RIGHT JOIN food_post ON orders.food_id = food_post.id
+                                                 RIGHT JOIN food_image_gallery ON food_post.id = food_image_gallery.food_id
+                                                 WHERE orders.user_id=:id");
+               $statement->bindParam(':id', $uid);
+               $statement->execute();
             }
         }
 

@@ -19,7 +19,7 @@ class OrderController{
         $order = new Order();
 
         if(isset($_GET['name']) && isset($_GET['id'])){
-            echo json_encode($order->readOrder($_GET['name'], $_GET['uid']));
+            echo json_encode($order->readOrder($_GET['name'], $_GET['id']));
         }
         
     }

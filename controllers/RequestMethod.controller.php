@@ -119,7 +119,8 @@ $api->post("order", function(){
 });
 
 $api->get("orders", function(){
-    
+    $orderController = new OrderController();
+    $orderController->fetchOrderSingle();
 });
 
 
