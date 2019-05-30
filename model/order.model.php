@@ -6,6 +6,7 @@ class Order{
     public $food_id;
     public $user_id;
     public $buyer_id;
+    public $qty;
     public $conn;
 
     public function __construct()
@@ -22,10 +23,11 @@ class Order{
             if($statement->rowCount() > 0){
                 return false;
             }else{
-                $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id) VALUES(:fid, :uid, :bid);");
+                $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id, quantity) VALUES(:fid, :uid, :bid, :qty);");
                 $statement->bindParam(':fid', $this->food_id);
                 $statement->bindParam(':uid', $this->user_id);
                 $statement->bindParam(':bid', $this->buyer_id);
+                $statement->bindParam(':qty', $this->qty);
                 $statement->execute();
                 return true;
             }
@@ -43,13 +45,13 @@ class Order{
             if($statement->rowCount() > 0){
                 $data = $statement->fetch();
                 $uid = $data['id'];
-                $statement = $this->conn->query("SELECT orders.id, orders.food_id, orders.buyer_id, orders.user_id, orders.request, 
+                $statement = $this->conn->query("SELECT orders.id, orders.food_id, orders.buyer_id, orders.user_id, orders.request, orders.quantity,
                                                  users.firstname, users.lastname, users.contact, users.profile_image, food_post.food_name, 
                                                  food_image_gallery.image_link FROM orders
                                                  RIGHT JOIN users ON orders.buyer_id = users.id
                                                  RIGHT JOIN food_post ON orders.food_id = food_post.id
                                                  RIGHT JOIN food_image_gallery ON food_post.id = food_image_gallery.food_id
-                                                 WHERE orders.user_id=:id");
+                                                 WHERE orders.user_id=:id ORDER BY orders.order_date DESC");
                $statement->bindParam(':id', $uid);
                $statement->execute();
             }
