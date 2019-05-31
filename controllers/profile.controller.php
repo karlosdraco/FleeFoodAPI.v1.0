@@ -1,6 +1,8 @@
 <?php
     require_once './model/profile.model.php';
     require_once './model/follow.model.php';
+    require_once './model/order.model.php';
+
     require_once './controllers/login_user.controller.php';
     require_once './classes/input-authentication.php';
    
@@ -10,21 +12,23 @@
         public function getUserName(){
             $fetchProfileData = new Profile();
             $follow = new follow();
+            $order = new Order();
                 
                 if(isset($_GET['name']) && isset($_GET['id'])){
                     if($fetchProfileData->readUserName($_GET['name'], $_GET['id'])){
-                        $followTemp = array(
+                        $dataTemp = array(
                             'followers' => $follow->showFollowers($_GET['name']), 
                             'following' => $follow->showFollowing($_GET['name']),
                             'followerCount' => $follow->followerCount(),
-                            'followingCount' => $follow->followingCount()
+                            'followingCount' => $follow->followingCount(),
+                            'requestOrderCount' => $order->getRequestCount($_GET['id'])
                         );
 
                         $profileData = array(
                             'user' => $fetchProfileData->readUserName($_GET['name'], $_GET['id'])
                         );
 
-                        $profileData = array_merge($profileData['user'][0], $followTemp);
+                        $profileData = array_merge($profileData['user'][0], $dataTemp);
                         echo json_encode(array(
                             'profile_data' => $profileData
                           )

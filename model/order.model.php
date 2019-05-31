@@ -7,6 +7,7 @@ class Order{
     public $user_id;
     public $buyer_id;
     public $qty;
+    public $requestCount;
     public $conn;
 
     public function __construct()
@@ -54,10 +55,23 @@ class Order{
                                                  WHERE orders.user_id=:id ORDER BY orders.order_date DESC");
                $statement->bindParam(':id', $uid);
                $statement->execute();
+
             }
         }
 
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getRequestCount($uid){
+        $statement = $this->conn->query("SELECT user_id FROM orders WHERE user_id=:uid");
+        $statement->bindParam(':uid', $uid);
+        $statement->execute();
+
+        if($statement->rowCount() > 0){
+            return $statement->rowCount();
+        }else{
+            return  0;
+        }
     }
 
     public function requestStatusUpdate($request){
@@ -68,7 +82,7 @@ class Order{
         $statement->bindParam(':bid', $this->buyer_id);
         $statement->bindParam(':uid', $this->user_id);
         $statement->execute();
-         
     }
+
 
 }
