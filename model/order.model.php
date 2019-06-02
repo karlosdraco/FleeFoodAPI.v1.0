@@ -24,7 +24,7 @@ class Order{
             if($statement->rowCount() > 0){
                 return false;
             }else{
-                $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id, quantity) VALUES(:fid, :uid, :bid, :qty);");
+                $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id, quantity, request) VALUES(:fid, :uid, :bid, :qty, request='pending');");
                 $statement->bindParam(':fid', $this->food_id);
                 $statement->bindParam(':uid', $this->user_id);
                 $statement->bindParam(':bid', $this->buyer_id);
@@ -52,7 +52,7 @@ class Order{
                                                  RIGHT JOIN users ON orders.buyer_id = users.id
                                                  RIGHT JOIN food_post ON orders.food_id = food_post.id
                                                  RIGHT JOIN food_image_gallery ON food_post.id = food_image_gallery.food_id
-                                                 WHERE orders.user_id=:id ORDER BY orders.order_date DESC");
+                                                 WHERE orders.user_id=:id AND (orders.request = 'accepted' OR orders.request = 'pending') ORDER BY orders.order_date DESC");
                $statement->bindParam(':id', $uid);
                $statement->execute();
 
@@ -63,7 +63,7 @@ class Order{
     }
 
     public function getRequestCount($uid){
-        $statement = $this->conn->query("SELECT user_id FROM orders WHERE user_id=:uid");
+        $statement = $this->conn->query("SELECT user_id FROM orders WHERE user_id=:uid AND (request = 'accepted' OR request = 'pending')");
         $statement->bindParam(':uid', $uid);
         $statement->execute();
 
