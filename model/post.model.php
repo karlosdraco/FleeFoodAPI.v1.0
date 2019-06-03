@@ -27,8 +27,8 @@
         public function create_post(){
 
             $statement = $this->conn->query("INSERT INTO food_post(user_id, food_name, food_description, 
-            food_price, food_availability, delivery_type, currency, addressLine1, addressLine2) 
-            VALUES (:uid, :fname, :fdesc, :fprice, :favail, :delFee, :currency, :add1, :add2)");
+            food_price, food_availability, delivery_type, currency, addressLine1, addressLine2,report, reported) 
+            VALUES (:uid, :fname, :fdesc, :fprice, :favail, :delFee, :currency, :add1, :add2, report=0, reported=0)");
 
             $statement->bindParam(':uid', $this->uid);
             $statement->bindParam(':fname', $this->foodName);

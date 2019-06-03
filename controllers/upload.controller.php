@@ -56,7 +56,14 @@ use function GuzzleHttp\json_encode;
                 $foodImage = new S3Upload($folderOwner, "Food post");
                 
                 //INSERT URL TO DATABASE
-                $uploadFoodPost->uploadFoodPostGallery($uid, $foodImage->imgUrl);
+                if($foodImage->errorUploadResponse == 1){
+                    $uploadFoodPost->uploadFoodPostGallery($uid, $foodImage->imgUrl);
+                }else if($foodImage->errorUploadResponse == 0){
+                    echo json_encode(
+                        $foodImage->response
+                    );
+                }
+               
 
         }
     }

@@ -51,13 +51,15 @@ class S3Upload{
                     $this->errorUploadResponse = 0;
                     $this->response = array(
                         'message' => "Error invalid file type",
-                        'message_code' => $this->errorUploadResponse
+                        'message_code' => $this->errorUploadResponse,
+                        'msgColor' => '#ce2626'
                     );
                 }else if($_FILES["file"]['size'] > 5000000){
                     $this->errorUploadResponse = 0;
                     $this->response = array(
                         'message' => "Maximum image size is 5mb",
-                        'message_code' => $this->errorUploadResponse
+                        'message_code' => $this->errorUploadResponse,
+                        'msgColor' => '#ce2626'
                     );
                 }else{
                     $this->errorUploadResponse = 1;
@@ -84,8 +86,9 @@ class S3Upload{
                         // Display the object in the browser.
                         echo json_encode(
                             $this->response = array(
-                                'message' => 'Image successfully uploaded',
-                                'message_code' => $this->errorUploadResponse
+                                'message' => 'Post success image uploaded',
+                                'message_code' => $this->errorUploadResponse,
+                                'msgColor'=> '#44d809'
                             )
                         );
                        

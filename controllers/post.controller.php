@@ -20,7 +20,7 @@ require_once 'login_user.controller.php';
              $data = json_decode(file_get_contents("php://input"));
              
              $post->uid = $uid;
-             $post->foodName = $auth->sanitize($data->foodName);
+             $post->foodName = $data->foodName;
              $post->foodDesc = $auth->sanitize($data->foodDescription);
              $post->foodPrice = $auth->sanitize($data->foodPrice);
              $post->foodCurrency = $auth->sanitize($data->currency);
@@ -29,21 +29,22 @@ require_once 'login_user.controller.php';
              $post->address1 = $auth->sanitize($data->addressLine1);
              $post->address2 = $auth->sanitize($data->addressLine2);
 
-             /*if(!$auth->isEmpty($post->foodName) || !$auth->isEmpty($post->foodDesc) || !$auth->isEmpty($post->foodPrice) || !$auth->isEmpty($post->foodCurrency) || !$auth->isEmpty($post->foodAvailability) || !$auth->isEmpty($post->deliveryFee) || !$auth->isEmpty($post->address1) || !$auth->isEmpty($post->address2)){
+             if(!$auth->isEmpty($post->foodName) || !$auth->isEmpty($post->foodDesc) || !$auth->isEmpty($post->foodPrice) || !$auth->isEmpty($post->foodCurrency) || !$auth->isEmpty($post->foodAvailability) || !$auth->isEmpty($post->deliveryFee) || !$auth->isEmpty($post->address1) || !$auth->isEmpty($post->address2)){
                  echo $response = json_encode(array(
                         'message' => 'Post empty',
-                        'error'=> false
+                        'error'=> true
                 ));
-             }else{*/
+             }else{
                 if($post->create_post()){
                     echo json_encode(array(
                         'message' => 'Posted',
-                        'error'=> false
+                        'error'=> false,
+                        'msgColor' => '#44d809'
                     ));
                 }else{
                     http_response_code(401);
                 }
-            //}
+            }
         }
 
         public function read_post(){
