@@ -41,6 +41,13 @@ class OrderController{
     }
 
     public function updateRequestStatus(){
+
+        $requestStatus = array(
+            'acc' => "accepted",
+            'dec' => "declined",
+            'clm' => "claimed",
+            'can' => "cancelled"
+        );
         
         $order = new Order();
         $data = json_decode(file_get_contents("php://input"));
@@ -49,9 +56,33 @@ class OrderController{
         $order->buyer_id = $data->buyerId;
         
         if($data->request == 1){
-            $order->requestStatusUpdate("accepted");
+            $order->requestStatusUpdate($requestStatus['acc']);
+            echo json_encode(array(
+                'message' => "order modified",
+                'status' => 'modified',
+                'requestStatus' => 'accepted'
+            ));
         }else if($data->request == 0){
-            $order->requestStatusUpdate("declined");
+            $order->requestStatusUpdate($requestStatus['dec']);
+            echo json_encode(array(
+                'message' => "order modified",
+                'status' => 'modified',
+                'requestStatus' => 'declined'
+            ));
+        }else if($data->request == 2){
+            $order->requestStatusUpdate($requestStatus['clm']);
+            echo json_encode(array(
+                'message' => "order modified",
+                'status' => 'modified',
+                'requestStatus' => 'claimed'
+            ));
+        }else if($data->request == 3){
+            $order->requestStatusUpdate($requestStatus['can']);
+            echo json_encode(array(
+                'message' => "order modified",
+                'status' => 'modified',
+                'requestStatus' => 'cancelled'
+            ));
         }
 
     }

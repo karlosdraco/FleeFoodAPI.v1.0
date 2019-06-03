@@ -66,13 +66,19 @@
             
 
             if($fetchProfileData->create($uid)){
-                $fetchProfileData->update($uid);
+               if($fetchProfileData->update($uid)){
                 echo json_encode(
                     array(
                         'message' => "Updated",
-                        'error' => false
+                        'error' => false,
+                        'status' => "Modified"
                     )
                 );
+               }else{
+                   http_response_code(304);
+               }
+            }else{
+                http_response_code(304);
             }
         }
     }

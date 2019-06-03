@@ -104,9 +104,11 @@
             $statement->bindParam(':add2', $this->add2);
             $statement->bindParam(':country', $this->country);
             $statement->bindParam(':zipCode', $this->zip);
-            $statement->execute();
-
-
-
+            
+            if($statement->execute()){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
