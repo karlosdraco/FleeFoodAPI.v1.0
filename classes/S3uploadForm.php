@@ -86,7 +86,7 @@ class S3Upload{
                         // Display the object in the browser.
                         echo json_encode(
                             $this->response = array(
-                                'message' => 'Post success image uploaded',
+                                'message' => 'Finished. Post success image uploaded',
                                 'message_code' => $this->errorUploadResponse,
                                 'msgColor'=> '#44d809'
                             )

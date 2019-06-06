@@ -10,6 +10,14 @@
             }
         }
 
+        public function checkNull($input){
+            if($input == null){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
         public function allowedInput($input){
 
             if(!preg_match("/^[a-zA-Z_-]*$/", $input)){
