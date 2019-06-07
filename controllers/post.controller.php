@@ -52,7 +52,6 @@ require_once 'login_user.controller.php';
             }
         }
 
-
         public function read_post(){
             $post = new Post();
             $uid = new login_user();
@@ -66,11 +65,35 @@ require_once 'login_user.controller.php';
             $loggedIn = new login_user();
 
             if(isset($_GET['name']) && isset($_GET['id'])){
-                $fetchData = $post->read_post_single($_GET['name'], $_GET['id']);
-                echo json_encode($fetchData);
+                
+                if($fetchData = $post->read_post_single($_GET['name'], $_GET['id'])){
+                    echo json_encode($fetchData);
+                }else{
+                    echo json_encode(array(
+                        'message' => 'You have no post',
+                        'count' => 0
+                    ));
+                }
+                
             }
+        }
 
-           
+
+        public function delete_post(){
+            $post = new Post();
+            $data = json_decode(file_get_contents("php://input"));
+            
+            $post->foodId = $data->foodId;
+            $post->uid = $data->userId;
+            
+            if($post->delete_post()){
+                echo json_encode(array(
+                    'response' => "deleted",
+                    'errorCode' => 0
+                ));
+            }else{
+                http_response_code(304);
+            }
         }
     }
     

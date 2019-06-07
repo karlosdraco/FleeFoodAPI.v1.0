@@ -81,6 +81,7 @@ $api->post("post", function(){
     $controller->create_post();
 });
 
+
 //READ SINGLE FOOD POST - POST FEED
 $api->get("post", function(){
     $controller = new PostController();
@@ -91,6 +92,11 @@ $api->get("post", function(){
 $api->get("feed", function(){
     $controller = new PostController();
     $controller->read_post();
+});
+
+$api->delete("post", function(){
+    $controller = new PostController();
+    $controller->delete_post();
 });
 
 //UPLOAD FOOD GALLERY

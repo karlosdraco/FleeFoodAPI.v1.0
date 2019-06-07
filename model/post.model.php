@@ -6,6 +6,7 @@
 
         public $conn;
         public $uid;
+        public $foodId;
         public $foodImg;
         public $foodName;
         public $foodDesc;
@@ -72,11 +73,36 @@
                     RIGHT JOIN food_image_gallery ON food_post.id=food_image_gallery.food_id WHERE users.id = :uid ORDER BY food_post.post_date DESC");
                     $statement->bindParam(':uid', $uid);
                     $statement->execute();
+
+                    if($statement->rowCount() > 0){
+                        return $statement->fetchAll(PDO::FETCH_ASSOC);
+                    }else{
+                        return false;
+                    }
                 }else{
-                    echo 'Prepared statement error';
+                    return false;
                 }
             }
-            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function update_post(){
+
+        }
+
+        public function delete_post(){
+            
+            $statement = $this->conn->query("DELETE food_post.*, food_image_gallery.* FROM food_post RIGHT JOIN food_image_gallery 
+            ON food_post.id=food_image_gallery.food_id WHERE food_post.id=:fid AND food_post.user_id=:uid");
+            $statement->bindParam(':fid', $this->foodId);
+            $statement->bindParam(':uid', $this->uid);
+            
+            if($statement->execute()){
+                return true;
+            }else{
+                return false;
+            }
+
+            
         }
 
     }
