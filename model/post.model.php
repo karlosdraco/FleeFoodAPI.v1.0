@@ -52,7 +52,7 @@
         public function read_post(){
             
             $statement = $this->conn->query("SELECT users.id, users.profile_image, users.firstname, users.lastname,
-            users.email, users.contact, food_image_gallery.image_link, food_post.* FROM users RIGHT JOIN food_post ON users.id=food_post.user_id 
+            users.email, users.contact, food_image_gallery.image_link, food_post.*, TIME_FORMAT(food_post.post_date, '%r') AS post_expiration, DATE_FORMAT(food_post.post_date, '%W %M %e %Y') AS post_date FROM users RIGHT JOIN food_post ON users.id=food_post.user_id 
             RIGHT JOIN food_image_gallery ON food_post.id=food_image_gallery.food_id ORDER BY food_post.post_date DESC");
             $statement->execute();
             

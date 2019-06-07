@@ -64,18 +64,23 @@ require_once 'login_user.controller.php';
             $post = new Post();
             $loggedIn = new login_user();
 
-            if(isset($_GET['name']) && isset($_GET['id'])){
+            if($loggedIn->isLoggedIn()){
+                if(isset($_GET['name']) && isset($_GET['id'])){
                 
-                if($fetchData = $post->read_post_single($_GET['name'], $_GET['id'])){
-                    echo json_encode($fetchData);
-                }else{
-                    echo json_encode(array(
-                        'message' => 'You have no post',
-                        'count' => 0
-                    ));
+                    if($fetchData = $post->read_post_single($_GET['name'], $_GET['id'])){
+                        echo json_encode($fetchData);
+                    }else{
+                        echo json_encode(array(
+                            'message' => 'You have no post',
+                            'count' => 0
+                        ));
+                    }
                 }
-                
+            }else{
+                return $loggedIn->isLoggedIn();
             }
+
+           
         }
 
 
