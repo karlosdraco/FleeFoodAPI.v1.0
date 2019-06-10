@@ -86,7 +86,26 @@
         }
 
         public function update_post(){
-
+            $statement = $this->conn->query("UPDATE food_post SET food_name=:fn, food_description=:fd, food_price=:fp,
+            food_availability=:fa, delivery_type=:dt, currency=:fc, addressLine1=:add1, addressLine2=:add2 WHERE id=:fid AND user_id=:uid");
+            
+            $statement->bindParam(':fid', $this->foodId);
+            $statement->bindParam(':uid', $this->uid);
+            $statement->bindParam(':fn', $this->foodName);
+            $statement->bindParam(':fd', $this->foodDesc);
+            $statement->bindParam(':fp', $this->foodPrice);
+            $statement->bindParam(':fa', $this->foodAvailability);
+            $statement->bindParam(':dt', $this->deliveryFee);
+            $statement->bindParam(':fc', $this->foodCurrency);
+            $statement->bindParam(':add1', $this->address1);
+            $statement->bindParam(':add2', $this->address2);
+            
+            if($statement->execute()){
+                return true;
+            }else{
+                return false;
+            }
+    
         }
 
         public function delete_post(){

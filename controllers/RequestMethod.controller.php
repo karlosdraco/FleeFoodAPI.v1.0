@@ -75,12 +75,13 @@ $api->post("upload", function(){
     $upload->UploadProfile();
 });
 
+
+/*********************************FOOD POST CRUD*****************************************/
 //POST FOOD ITEM
 $api->post("post", function(){
     $controller = new PostController();
     $controller->create_post();
 });
-
 
 //READ SINGLE FOOD POST - POST FEED
 $api->get("post", function(){
@@ -94,10 +95,17 @@ $api->get("feed", function(){
     $controller->read_post();
 });
 
+$api->put("post", function(){
+    $controller = new PostController();
+    $controller->update_post();
+});
+
 $api->delete("post", function(){
     $controller = new PostController();
     $controller->delete_post();
 });
+/*********************************FOOD POST CRUD END**************************************/
+
 
 //UPLOAD FOOD GALLERY
 $api->post("food", function(){

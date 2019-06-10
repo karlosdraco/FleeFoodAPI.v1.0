@@ -30,16 +30,16 @@ require_once 'login_user.controller.php';
              $post->address2 = $auth->sanitize($data->addressLine2);
 
             
-                if(!$auth->isEmpty($post->foodName) || !$auth->isEmpty($post->foodDesc) 
+            if(!$auth->isEmpty($post->foodName) || !$auth->isEmpty($post->foodDesc) 
                 || !$auth->isEmpty($post->foodPrice) || !$auth->isEmpty($post->foodCurrency)
                 || !$auth->isEmpty($post->foodAvailability) || !$auth->isEmpty($post->deliveryFee)
                 || !$auth->isEmpty($post->address1) || !$auth->isEmpty($post->address2)){
-                 echo $response = json_encode(array(
+                 echo json_encode(array(
                         'message' => 'Cannot leave field(s) empty',
                         'error'=> true,
                         'msgColor' => '#ce2626'
                 ));
-             }else{
+            }else{
                 if($post->create_post()){
                     echo json_encode(array(
                         'message' => 'Posted',
@@ -79,8 +79,44 @@ require_once 'login_user.controller.php';
             }else{
                 return $loggedIn->isLoggedIn();
             }
+        }
 
-           
+        public function update_post(){
+            $auth = new inputAuthentication();
+            $post = new Post();
+            $data = json_decode(file_get_contents("php://input"));
+
+            $post->uid = $data->userId;
+            $post->foodId = $data->foodId;
+            $post->foodName = $data->foodName;
+            $post->foodDesc = $auth->sanitize($data->foodDesc);
+            $post->foodPrice = $auth->sanitize($data->foodPrice);
+            $post->foodCurrency = $auth->sanitize($data->foodCurrency);
+            $post->foodAvailability = $auth->sanitize($data->foodAvailability);
+            $post->deliveryFee = $auth->sanitize($data->foodDelivery);
+            $post->address1 = $auth->sanitize($data->foodAdd1);
+            $post->address2 = $auth->sanitize($data->foodAdd2);
+
+            if(!$auth->isEmpty($post->foodName) || !$auth->isEmpty($post->foodDesc) 
+                || !$auth->isEmpty($post->foodPrice) || !$auth->isEmpty($post->foodCurrency)
+                || !$auth->isEmpty($post->foodAvailability) || !$auth->isEmpty($post->deliveryFee)
+                || !$auth->isEmpty($post->address1) || !$auth->isEmpty($post->address2)){
+                 echo json_encode(array(
+                        'message' => 'Cannot leave field(s) empty',
+                        'error'=> true,
+                        'msgColor' => '#ce2626'
+                ));
+            }else{
+                if($post->update_post()){
+                    echo json_encode(array(
+                        'message' => 'Updated',
+                        'error'=> false,
+                        'msgColor' => '#44d809'
+                    ));
+                }else{
+                    http_response_code(401);
+                }
+            }
         }
 
 
