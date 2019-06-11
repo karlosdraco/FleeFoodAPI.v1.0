@@ -24,11 +24,14 @@ class Order{
             if($statement->rowCount() > 0){
                 return false;
             }else{
-                $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id, quantity, request) VALUES(:fid, :uid, :bid, :qty, request='pending');");
+
+                $req = "pending";
+                $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id, quantity, request) VALUES(:fid, :uid, :bid, :qty, :rqst);");
                 $statement->bindParam(':fid', $this->food_id);
                 $statement->bindParam(':uid', $this->user_id);
                 $statement->bindParam(':bid', $this->buyer_id);
                 $statement->bindParam(':qty', $this->qty);
+                $statement->bindParam(':rqst', $req);
                 $statement->execute();
                 return true;
             }
