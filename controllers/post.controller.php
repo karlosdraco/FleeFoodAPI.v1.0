@@ -29,11 +29,12 @@ require_once 'login_user.controller.php';
              $post->address1 = $auth->sanitize($data->addressLine1);
              $post->address2 = $auth->sanitize($data->addressLine2);
 
-            
+                    
             if(!$auth->isEmpty($post->foodName) || !$auth->isEmpty($post->foodDesc) 
                 || !$auth->isEmpty($post->foodPrice) || !$auth->isEmpty($post->foodCurrency)
                 || !$auth->isEmpty($post->foodAvailability) || !$auth->isEmpty($post->deliveryFee)
                 || !$auth->isEmpty($post->address1) || !$auth->isEmpty($post->address2)){
+ 
                  echo json_encode(array(
                         'message' => 'Cannot leave field(s) empty',
                         'error'=> true,
@@ -98,8 +99,8 @@ require_once 'login_user.controller.php';
             $post->address2 = $auth->sanitize($data->foodAdd2);
 
             if(!$auth->isEmpty($post->foodName) || !$auth->isEmpty($post->foodDesc) 
-                || !$auth->isEmpty($post->foodPrice) || !$auth->isEmpty($post->foodCurrency)
-                || !$auth->isEmpty($post->foodAvailability) || !$auth->isEmpty($post->deliveryFee)
+                || !$auth->varSet($post->foodPrice) || !$auth->isEmpty($post->foodCurrency)
+                || !$auth->isEmpty($post->foodAvailability) || !$auth->varSet($post->deliveryFee)
                 || !$auth->isEmpty($post->address1) || !$auth->isEmpty($post->address2)){
                  echo json_encode(array(
                         'message' => 'Cannot leave field(s) empty',

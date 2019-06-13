@@ -18,6 +18,14 @@
             }
         }
 
+        public function varSet($input){
+            if(isset($input)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
         public function allowedInput($input){
 
             if(!preg_match("/^[a-zA-Z_-]*$/", $input)){
