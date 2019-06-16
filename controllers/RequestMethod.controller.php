@@ -56,7 +56,7 @@ $api->get("loggedIn", function(){
     );
 });
 
-
+/*********************************USER PROFILE CRUD*****************************************/
 //USER PROFILE
 $api->get("profile", function(){
     $controller = new ProfileController();
@@ -69,12 +69,14 @@ $api->put("profile", function(){
     $controller->updateUser();
 });
 
+
+
 //UPLOAD PROFILE IMAGE
 $api->post("upload", function(){
     $upload = new UploadController();
     $upload->UploadProfile();
 });
-
+/*********************************USER PROFILE CRUD*****************************************/
 
 /*********************************FOOD POST CRUD*****************************************/
 //POST FOOD ITEM
@@ -126,6 +128,7 @@ $api->post("follow", function(){
     $follow->followUser();
 });
 
+/*********************************ORDER CRUD*****************************************/
 //REQUEST ORDER
 $api->post("order", function(){
     $orderController = new OrderController();
@@ -142,6 +145,6 @@ $api->put("orders", function(){
     $orderController->updateRequestStatus();
 });
 //END REQUEST ORDER ENDPOINT
-
+/*********************************ORDER CRUD*****************************************/
 
 
