@@ -56,6 +56,8 @@ $api->get("loggedIn", function(){
     );
 });
 
+
+
 /*********************************USER PROFILE CRUD*****************************************/
 //USER PROFILE
 $api->get("profile", function(){

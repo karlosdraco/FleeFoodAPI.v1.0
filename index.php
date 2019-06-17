@@ -23,5 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 
 require_once 'controllers/RequestMethod.controller.php';
+require_once 'async_data/asyncDataCallbacks.php';
 
 

@@ -63,8 +63,6 @@
             $fetchProfileData->zip = $auth->sanitize($data->zipCode);
             $fetchProfileData->gender = $auth->sanitize($data->gender);
 
-            
-
             if($fetchProfileData->create($uid)){
                if($fetchProfileData->update($uid)){
                 echo json_encode(
