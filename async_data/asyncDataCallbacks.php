@@ -9,3 +9,13 @@ $api->get('getAsyncNotifications', function(){
     $notif = new AsyncData();
     $notif->notifcation();
 });
+
+$api->get('getAsyncData', function(){
+    $notif = new AsyncData();
+    $notif->asyncNotifCount();
+});
+
+$api->put('fetchedView', function(){
+    $notif = new AsyncData();
+    $notif->updateFetch();
+});

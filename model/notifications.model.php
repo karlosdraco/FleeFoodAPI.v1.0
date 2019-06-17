@@ -5,6 +5,9 @@ require_once './config/DB.php';
     class Notifications{
 
         public $conn;
+        public $notifCount;
+        public $isFetched;
+        public $notifId;
 
         public function __construct()
         {
@@ -36,9 +39,9 @@ require_once './config/DB.php';
 
                    $statement = $this->conn->query("SELECT notifications.*,food_post.food_name,users.firstname,
                    users.lastname,users.profile_image
-                    FROM notifications RIGHT JOIN food_post ON notifications.food_id=food_post.id
-                    RIGHT JOIN users ON notifications.agent_id=users.id
-                    WHERE notifications.user_id=:uid ORDER BY notifications.notif_date DESC");
+                   FROM notifications RIGHT JOIN food_post ON notifications.food_id=food_post.id
+                   RIGHT JOIN users ON notifications.agent_id=users.id
+                   WHERE notifications.user_id=:uid ORDER BY notifications.notif_date DESC");
                    $statement->bindParam(':uid', $uid);
                    $statement->execute();
                    return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -47,8 +50,31 @@ require_once './config/DB.php';
         }
 
         public function notificationCount($loggedUserId){
-            $statement = $this->conn->query("SELECT * FROM notifications WHERE agent_id=:aid");
-            $statement->bindParam(':aid', $loggedUserId);
+            $statement = $this->conn->query("SELECT user_id,fetched FROM notifications WHERE user_id=:uid AND fetched='0'");
+            $statement->bindParam(':uid', $loggedUserId);
+            $statement->execute();
+            
+            if($statement->rowCount() > 0){
+                $data = $statement->fetch(PDO::FETCH_ASSOC);
+                $this->notifCount = $statement->rowCount();
+                $this->notifId = $data['user_id'];
+                $this->isFetched = $data['fetched'];
+            }else{
+                $this->notifCount = 0;
+                $this->isFetched = 1;
+            }
+            
+        }
+
+        public function updateFetching($loggedUserId){
+
+            $fetch = 1;
+            $statement = $this->conn->query("UPDATE notifications SET fetched=:fetch WHERE user_id=:uid");
+            $statement->bindParam(':fetch', $fetch);
+            $statement->bindParam(':uid', $loggedUserId);
+            
+            $statement->execute();
+         
         }
 
 
