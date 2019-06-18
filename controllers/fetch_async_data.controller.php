@@ -24,7 +24,8 @@ class AsyncData{
             array(
                 'notificationId' => $fetchNotif->notifId,
                 'notificationCount' => $fetchNotif->notifCount,
-                'fetched' => $fetchNotif->isFetched
+                'fetched' => $fetchNotif->isFetched,
+                'viewed' => $fetchNotif->isViewed
             )
         );
     }
