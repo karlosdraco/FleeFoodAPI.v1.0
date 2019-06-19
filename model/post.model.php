@@ -29,7 +29,7 @@
 
             $statement = $this->conn->query("INSERT INTO food_post(user_id, food_name, food_description, 
             food_price, food_availability, delivery_type, currency, addressLine1, addressLine2, report, reported, fetched) 
-            VALUES (:uid, :fname, :fdesc, :fprice, :favail, :delFee, :currency, :add1, :add2, report=0, reported=0, fetched=0)");
+            VALUES (:uid, :fname, :fdesc, :fprice, :favail, :delFee, :currency, :add1, :add2, report='0', reported='0', fetched='0')");
 
             $statement->bindParam(':uid', $this->uid);
             $statement->bindParam(':fname', $this->foodName);
@@ -52,9 +52,10 @@
         public function read_post(){
             
             $statement = $this->conn->query("SELECT users.id, users.profile_image, users.firstname, users.lastname,
-            users.email, users.contact, food_image_gallery.image_link, food_post.*, TIME_FORMAT(food_post.post_date, '%r') 
+            users.email, users.contact, food_image_gallery.image_link, food_post.*,TIME_FORMAT(food_post.post_date, '%r') 
             AS post_expiration, DATE_FORMAT(food_post.post_date, '%W %M %e %Y') AS post_date FROM users RIGHT JOIN food_post ON users.id=food_post.user_id 
             RIGHT JOIN food_image_gallery ON food_post.id=food_image_gallery.food_id ORDER BY food_post.post_date DESC");
+           
             $statement->execute();
             
             return $statement->fetchAll(PDO::FETCH_ASSOC);

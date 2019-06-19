@@ -6,6 +6,7 @@ class Order{
     public $food_id;
     public $user_id;
     public $buyer_id;
+    public $order_id;
     public $qty;
     public $requestCount;
     public $conn;
@@ -16,16 +17,18 @@ class Order{
     }
 
     public function orderRequest(){
-        $statement = $this->conn->query("SELECT buyer_id, food_id FROM orders WHERE food_id=:fid AND buyer_id=:bid");
+        
+        $statement = $this->conn->query("SELECT id, buyer_id, food_id,request FROM orders WHERE food_id=:fid 
+        AND buyer_id=:bid AND (request='accepted' OR request='pending')");
         $statement->bindParam(':fid', $this->food_id);
         $statement->bindParam(':bid', $this->buyer_id);
-        
+    
         if($statement->execute()){
             if($statement->rowCount() > 0){
-                return false;
+                    return false;
             }else{
-
-                $req = "pending";
+                
+                    $req = "pending";
                 $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id, quantity, request) VALUES(:fid, :uid, :bid, :qty, :rqst);");
                 $statement->bindParam(':fid', $this->food_id);
                 $statement->bindParam(':uid', $this->user_id);
@@ -79,11 +82,12 @@ class Order{
 
     public function requestStatusUpdate($request){
     
-        $statement = $this->conn->query("UPDATE orders SET request=:req WHERE food_id=:fid AND buyer_id=:bid AND user_id=:uid");
+        $statement = $this->conn->query("UPDATE orders SET request=:req WHERE food_id=:fid AND buyer_id=:bid AND user_id=:uid AND id=:oid");
         $statement->bindParam(':req', $request);
         $statement->bindParam(':fid', $this->food_id);
         $statement->bindParam(':bid', $this->buyer_id);
         $statement->bindParam(':uid', $this->user_id);
+        $statement->bindParam(':oid', $this->order_id);
         $statement->execute();
     }
 

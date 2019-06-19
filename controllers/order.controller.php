@@ -66,6 +66,7 @@ class OrderController{
         $order->food_id = $data->foodId;
         $order->user_id = $data->userId;
         $order->buyer_id = $data->buyerId;
+        $order->order_id = $data->orderId;
         
         if($data->request == 1){
             $order->requestStatusUpdate($requestStatus['acc']);
