@@ -65,6 +65,8 @@ require_once 'login_user.controller.php';
             }
         }
 
+        
+        
         public function read_post_single(){
             $post = new Post();
             $loggedIn = new login_user();
@@ -86,6 +88,28 @@ require_once 'login_user.controller.php';
             }
         }
 
+        
+        
+        public function read_following_post(){
+            $post = new Post();
+            $loggedIn = new login_user();
+
+            if($loggedIn->isLoggedIn() == false){
+                $loggedIn->isLoggedIn();
+            }else{
+                if($post->read_following_post($loggedIn->isLoggedIn() == false)){
+                    echo json_encode(array(
+                        'message' => 'You are not following a user'
+                    ));
+                }else{
+                    echo json_encode($post->read_following_post($loggedIn->isLoggedIn()));
+                }
+            }
+        }
+
+        
+        
+        
         public function update_post(){
             $auth = new inputAuthentication();
             $post = new Post();

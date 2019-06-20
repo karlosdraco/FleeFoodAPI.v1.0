@@ -101,6 +101,11 @@ $api->get("feed", function(){
     $controller->read_post();
 });
 
+$api->get("getFollowingPost", function(){
+    $controller = new PostController();
+    $controller->read_following_post();
+});
+
 $api->put("post", function(){
     $controller = new PostController();
     $controller->update_post();
@@ -120,6 +125,8 @@ $api->post("food", function(){
     session_destroy();
 });
 
+
+/*********************************FOLLOW CRUD*****************************************/
 //GET FOLLOWER STATUS USER
 $api->get("follow", function(){
     $followStatus = new followController();
@@ -131,6 +138,11 @@ $api->post("follow", function(){
     $follow = new followController();
     $follow->followUser();
 });
+
+
+/*********************************FOLLOW CRUD END*****************************************/
+
+
 
 /*********************************ORDER CRUD*****************************************/
 //REQUEST ORDER

@@ -87,6 +87,28 @@
             }
         }
 
+        public function read_following_post($uid){
+            
+            $statement = $this->conn->query("SELECT users.id, users.profile_image, users.firstname, users.lastname,
+            users.email, users.contact, food_image_gallery.image_link, food_post.*,TIME_FORMAT(food_post.post_date, '%r') 
+            AS post_expiration, DATE_FORMAT(food_post.post_date, '%W %M %e %Y') AS post_date, follow_user.user_id
+            FROM users RIGHT JOIN food_post ON users.id=food_post.user_id 
+            RIGHT JOIN food_image_gallery ON food_post.id=food_image_gallery.food_id
+            RIGHT JOIN follow_user ON users.id=follow_user.user_id
+            WHERE follow_user.follow_id=:folid ORDER BY food_post.post_date DESC");
+            $statement->bindParam(':folid', $uid);
+           
+            if($statement->execute()){
+                if($statement->rowCount() > 0){
+                    return $statement->fetchAll(PDO::FETCH_ASSOC);;
+                }else{
+                    return false;
+                }
+            }
+            
+            
+        }
+
         public function update_post(){
             $statement = $this->conn->query("UPDATE food_post SET food_name=:fn, food_description=:fd, food_price=:fp,
             food_availability=:fa, delivery_type=:dt, currency=:fc, addressLine1=:add1, addressLine2=:add2 WHERE id=:fid AND user_id=:uid");
