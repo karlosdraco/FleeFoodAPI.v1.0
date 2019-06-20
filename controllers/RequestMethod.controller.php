@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 //CONFIGURATION
 require_once './config/RequestMethod.php';
@@ -13,14 +14,12 @@ require_once 'controllers/post.controller.php';
 require_once 'controllers/follow.controller.php';
 require_once 'controllers/order.controller.php';
 
-
 //MODEL
 require_once "./model/login_user.model.php";
 
 
 $api = new RequestMethod();
 
-//SIGN UP LOGIN LOGOUT
 $api->post("signup", function(){
     $controller = new signup_user();
     $controller->signup();
@@ -31,6 +30,7 @@ $api->post("login", function(){
     $controller->login();
 });
 
+//SIGN UP LOGIN LOGOUT
 $api->delete("logout", function(){
     $controller = new logOut();
     $controller->logout();
@@ -42,21 +42,25 @@ $api->get("loggedIn", function(){
     $model = new login_model();
 
     $uid = $controller->isLoggedIn();
-    $data = $model->loginCredentials($uid);    
-    echo json_encode(
-        array(
-            'id' => $data['id'],
-            'firstname' => $data['firstname'],
-            'lastname' => $data['lastname'],
-            'email' => $data['email'],
-            'imgUrl' => $data['profile_image'],
-            'loggedIn' => true,
-            'path' => 'home.html'
-        )
-    );
+
+    if($uid == false){
+        http_response_code(401);
+    }else{
+        $data = $model->loginCredentials($uid);    
+        echo json_encode(
+            array(
+                'id' => $data['id'],
+                'firstname' => $data['firstname'],
+                'lastname' => $data['lastname'],
+                'email' => $data['email'],
+                'imgUrl' => $data['profile_image'],
+                'loggedIn' => true,
+                'path' => 'home.html'
+            )
+        );
+    }
+   
 });
-
-
 
 /*********************************USER PROFILE CRUD*****************************************/
 //USER PROFILE
@@ -70,8 +74,6 @@ $api->put("profile", function(){
     $controller = new ProfileController();
     $controller->updateUser();
 });
-
-
 
 //UPLOAD PROFILE IMAGE
 $api->post("upload", function(){

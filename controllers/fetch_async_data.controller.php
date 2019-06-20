@@ -18,16 +18,21 @@ class AsyncData{
         $fetchNotif = new Notifications();
         $loggedIn = new login_user();
         $uid = $loggedIn->isLoggedIn();
-        $notifGlobals = $fetchNotif->notificationCount($uid);
 
-        echo json_encode(
-            array(
-                'notificationId' => $fetchNotif->notifId,
-                'notificationCount' => $fetchNotif->notifCount,
-                'fetched' => $fetchNotif->isFetched,
-                'viewed' => $fetchNotif->isViewed
-            )
-        );
+        $fetchNotif->notificationCount($uid);
+
+        if($uid == false){
+            http_response_code(401);
+        }else{
+            echo json_encode(
+                array(
+                    'notificationId' => $fetchNotif->notifId,
+                    'notificationCount' => $fetchNotif->notifCount,
+                    'fetched' => $fetchNotif->isFetched,
+                    'viewed' => $fetchNotif->isViewed
+                    )
+                );
+        }
     }
 
     public function updateFetch(){

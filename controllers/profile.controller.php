@@ -11,9 +11,14 @@
 
         public function getUserName(){
             $fetchProfileData = new Profile();
+            $verified_user = new login_user();
             $follow = new follow();
             $order = new Order();
-                
+
+            
+            if($verified_user->isLoggedIn() == false){
+                $verified_user->isLoggedIn();
+            }else{
                 if(isset($_GET['name']) && isset($_GET['id'])){
                     if($fetchProfileData->readUserName($_GET['name'], $_GET['id'])){
                         $dataTemp = array(
@@ -42,6 +47,8 @@
                         );
                     } 
                 }
+            }
+                
         }
 
         public function updateUser(){

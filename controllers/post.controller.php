@@ -56,9 +56,13 @@ require_once 'login_user.controller.php';
         public function read_post(){
             $post = new Post();
             $uid = new login_user();
-         
-            $fetchData = $post->read_post();
-            echo json_encode($fetchData);
+
+            if($uid->isLoggedIn() == false){
+                $uid->isLoggedIn();
+            }else{
+                $fetchData = $post->read_post();
+                echo json_encode($fetchData);
+            }
         }
 
         public function read_post_single(){

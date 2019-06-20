@@ -43,9 +43,10 @@
             $uid = $isVerified->verify_token();
             
             if($uid){
-                return $uid;
+                return $isVerified->user_id;
             }else{
                 http_response_code(401);
+                return false;
             }
         }
     }

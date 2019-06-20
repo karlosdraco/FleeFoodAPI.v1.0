@@ -54,22 +54,25 @@ require_once './config/DB.php';
         public function notificationCount($loggedUserId){
             $statement = $this->conn->query("SELECT user_id,fetched,viewed FROM notifications WHERE user_id=:uid AND fetched='0'");
             $statement->bindParam(':uid', $loggedUserId);
-            $statement->execute();
             
-            if($statement->rowCount() > 0){
-                $data = $statement->fetch(PDO::FETCH_ASSOC);
-                $this->notifCount = $statement->rowCount();
-                $this->notifId = $data['user_id'];
-                $this->isFetched = $data['fetched'];
-                $this->isViewed = $data['viewed'];
-            }else{
-                $this->notifCount = 0;
-                $this->isFetched = 1;
-                $this->isViewed = 0;
+            if($statement->execute()){
+                if($statement->rowCount() > 0){
+                    $data = $statement->fetch(PDO::FETCH_ASSOC);
+                    $this->notifCount = $statement->rowCount();
+                    $this->notifId = $data['user_id'];
+                    $this->isFetched = $data['fetched'];
+                    $this->isViewed = $data['viewed'];
+                    return true;
+                }else{
+                    $this->notifCount = 0;
+                    $this->isFetched = 1;
+                    $this->isViewed = 0;
+                    return false;
+                }
             }
-            
         }
 
+       
         public function updateFetching($loggedUserId){
 
             $fetch = 1;

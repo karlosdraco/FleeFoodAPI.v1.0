@@ -61,7 +61,9 @@
                 if($statement->execute()){
                     if($statement->rowCount() > 0){
                         $data = $statement->fetch();
-                        return $this->user_id = $data['user_id'];
+                        //return $this->user_id = $data['user_id'];
+                        $this->user_id = $data['user_id'];
+                        return true;
                     }else{
                         return false;
                     }

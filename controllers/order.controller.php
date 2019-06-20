@@ -42,10 +42,16 @@ class OrderController{
 
     public function fetchOrderSingle(){
         $order = new Order();
+        $verified_user = new login_user();
 
-        if(isset($_GET['name']) && isset($_GET['id'])){
-            echo json_encode($order->readOrder($_GET['name'], $_GET['id']));
+        if($verified_user->isLoggedIn() == false){
+            $verified_user->isLoggedIn();
+        }else{
+            if(isset($_GET['name']) && isset($_GET['id'])){
+                echo json_encode($order->readOrder($_GET['name'], $_GET['id']));
+            }
         }
+     
     }
 
     public function updateRequestStatus(){
