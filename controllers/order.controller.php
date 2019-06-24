@@ -54,6 +54,27 @@ class OrderController{
      
     }
 
+    public function fetchMyOrder(){
+        $order = new Order();
+        $verified_user = new login_user();
+
+        if($verified_user->isLoggedIn() == false){
+            $verified_user->isLoggedIn();
+        }else{
+
+            if($order->readMyOrder($verified_user->isLoggedIn() == false)){
+                echo json_encode(
+                    array(
+                        'message' => "You have no order"
+                    )
+                );
+            }else{
+                echo json_encode($order->readMyOrder($verified_user->isLoggedIn()));
+            }
+            
+        }
+    }
+
     public function updateRequestStatus(){
 
         $initiator = new login_user();

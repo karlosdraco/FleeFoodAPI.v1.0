@@ -156,6 +156,11 @@ $api->get("orders", function(){
     $orderController->fetchOrderSingle();
 });
 
+$api->get("myOrder", function(){
+    $orderController = new OrderController();
+    $orderController->fetchMyOrder();
+});
+
 $api->put("orders", function(){
     $orderController = new OrderController();
     $orderController->updateRequestStatus();

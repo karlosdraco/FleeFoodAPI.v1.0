@@ -28,7 +28,7 @@ class Order{
                     return false;
             }else{
                 
-                    $req = "pending";
+                $req = "pending";
                 $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id, quantity, request) VALUES(:fid, :uid, :bid, :qty, :rqst);");
                 $statement->bindParam(':fid', $this->food_id);
                 $statement->bindParam(':uid', $this->user_id);
@@ -66,6 +66,25 @@ class Order{
         }
 
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function readMyOrder($bid){
+        $statement = $this->conn->query("SELECT orders.id, orders.food_id, orders.buyer_id, orders.user_id, orders.request, orders.quantity,
+                                        users.firstname, users.lastname, users.contact, users.profile_image, food_post.food_name, food_post.currency
+                                        ,food_post.food_price, food_image_gallery.image_link FROM orders
+                                        RIGHT JOIN users ON orders.buyer_id = users.id
+                                        RIGHT JOIN food_post ON orders.food_id = food_post.id
+                                        RIGHT JOIN food_image_gallery ON food_post.id = food_image_gallery.food_id
+                                        WHERE orders.buyer_id=:bid ORDER BY orders.order_date DESC");
+        $statement->bindParam(':bid', $bid);
+        if($statement->execute()){
+            if($statement->rowCount() > 0){
+                return $statement->fetchAll(PDO::FETCH_ASSOC);
+            }else{
+                return false;
+            }
+        }
+       
     }
 
     public function getRequestCount($uid){
