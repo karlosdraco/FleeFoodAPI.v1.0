@@ -99,7 +99,8 @@ require_once 'login_user.controller.php';
             }else{
                 if($post->read_following_post($loggedIn->isLoggedIn() == false)){
                     echo json_encode(array(
-                        'message' => 'You are not following a user'
+                        'message' => 'You are not following a user',
+                        'following' => false
                     ));
                 }else{
                     echo json_encode($post->read_following_post($loggedIn->isLoggedIn()));
@@ -128,7 +129,7 @@ require_once 'login_user.controller.php';
 
             if(!$auth->isEmpty($post->foodName) || !$auth->isEmpty($post->foodDesc) 
                 || !$auth->varSet($post->foodPrice) || !$auth->isEmpty($post->foodCurrency)
-                || !$auth->isEmpty($post->foodAvailability) || !$auth->varSet($post->deliveryFee)
+                || !$auth->varSet($post->foodAvailability) || !$auth->varSet($post->deliveryFee)
                 || !$auth->isEmpty($post->address1) || !$auth->isEmpty($post->address2)){
                  echo json_encode(array(
                         'message' => 'Cannot leave field(s) empty',

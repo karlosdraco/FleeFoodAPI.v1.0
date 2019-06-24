@@ -22,8 +22,8 @@
                 if(isset($_GET['name']) && isset($_GET['id'])){
                     if($fetchProfileData->readUserName($_GET['name'], $_GET['id'])){
                         $dataTemp = array(
-                            'followers' => $follow->showFollowers($_GET['name']), 
-                            'following' => $follow->showFollowing($_GET['name']),
+                            'followers' => $follow->showFollowers($_GET['name'], $verified_user->isLoggedIn()), 
+                            'following' => $follow->showFollowing($_GET['name'], $verified_user->isLoggedIn()),
                             'followerCount' => $follow->followerCount(),
                             'followingCount' => $follow->followingCount(),
                             'requestOrderCount' => $order->getRequestCount($_GET['id'])

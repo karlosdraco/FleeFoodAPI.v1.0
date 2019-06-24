@@ -104,8 +104,6 @@
                     return false;
                 }
             }
-            
-            
         }
 
         public function update_post(){

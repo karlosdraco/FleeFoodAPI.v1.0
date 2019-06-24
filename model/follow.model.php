@@ -67,9 +67,10 @@
             }
         }
 
-        public function showFollowers($name){
-            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:fname");
+        public function showFollowers($name, $id){
+            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:fname AND id=:id");
             $statement->bindParam(':fname', $name);
+            $statement->bindParam(':id', $id);
             
             if($statement->execute()){
                 $data = $statement->fetch();
@@ -89,10 +90,11 @@
             }
         }
 
-        public function showFollowing($name){
-            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:fname");
+        public function showFollowing($name, $id){
+            $statement = $this->conn->query("SELECT id FROM users WHERE firstname=:fname AND id=:id");
             $statement->bindParam(':fname', $name);
-            
+            $statement->bindParam(':id', $id);
+
             if($statement->execute()){
                 $data = $statement->fetch();
                 $fid = $data['id'];
@@ -118,5 +120,29 @@
 
         public function followingCount(){
            return $this->followingCount;
+        }
+
+        public function asyncFollowerCount($uid){
+            $statement = $this->conn->query("SELECT id FROM follow_user WHERE user_id=:uid");
+            $statement->bindParam(':uid', $uid);
+            $statement->execute();
+
+           if($statement->rowCount() > 0){
+               $this->followerCount = $statement->rowCount();
+           }else{
+               $this->followerCount = 0;
+           }
+        }
+
+        public function asyncFollowingCount($fid){
+            $statement = $this->conn->query("SELECT id FROM follow_user WHERE follow_id=:fid");
+                $statement->bindParam(':fid', $fid);
+                $statement->execute();
+
+                if($statement->rowCount() > 0){
+                    $this->followingCount = $statement->rowCount();
+                }else{
+                    $this->followingCount = 0;
+                }
         }
     }
