@@ -8,6 +8,7 @@ class Order{
     public $buyer_id;
     public $order_id;
     public $qty;
+    public $price;
     public $requestCount;
     public $conn;
 
@@ -29,11 +30,12 @@ class Order{
             }else{
                 
                 $req = "pending";
-                $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id, quantity, request) VALUES(:fid, :uid, :bid, :qty, :rqst);");
+                $statement = $this->conn->query("INSERT INTO orders(food_id, user_id, buyer_id, quantity, price, request) VALUES(:fid, :uid, :bid, :qty, :price,:rqst);");
                 $statement->bindParam(':fid', $this->food_id);
                 $statement->bindParam(':uid', $this->user_id);
                 $statement->bindParam(':bid', $this->buyer_id);
                 $statement->bindParam(':qty', $this->qty);
+                $statement->bindParam(':price', $this->price);
                 $statement->bindParam(':rqst', $req);
                 $statement->execute();
                 return true;
@@ -52,7 +54,7 @@ class Order{
             if($statement->rowCount() > 0){
                 $data = $statement->fetch();
                 $uid = $data['id'];
-                $statement = $this->conn->query("SELECT orders.id, orders.food_id, orders.buyer_id, orders.user_id, orders.request, orders.quantity,
+                $statement = $this->conn->query("SELECT orders.id, orders.food_id, orders.buyer_id, orders.user_id,orders.price, orders.request, orders.quantity,
                                                  users.firstname, users.lastname, users.contact, users.profile_image, food_post.food_name, 
                                                  food_image_gallery.image_link FROM orders
                                                  RIGHT JOIN users ON orders.buyer_id = users.id
@@ -69,7 +71,7 @@ class Order{
     }
 
     public function readMyOrder($bid){
-        $statement = $this->conn->query("SELECT orders.id, orders.food_id, orders.buyer_id, orders.user_id, orders.request, orders.quantity,
+        $statement = $this->conn->query("SELECT orders.id, orders.food_id, orders.buyer_id, orders.user_id, orders.price,orders.request, orders.quantity,
                                         DATE_FORMAT(orders.order_date, '%W %M %e %Y') AS order_date, users.firstname, users.lastname, users.contact, users.profile_image, food_post.food_name, food_post.currency
                                         ,food_post.food_price, food_image_gallery.image_link FROM orders
                                         RIGHT JOIN users ON orders.buyer_id = users.id

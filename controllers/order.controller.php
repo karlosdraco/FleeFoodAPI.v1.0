@@ -20,6 +20,7 @@ class OrderController{
         $order->user_id = $data->userId;
         $order->buyer_id = $data->buyerId;
         $order->qty = $data->quantity;
+        $order->price = $data->price;
         
         if(!$order->orderRequest()){
             echo json_encode(
