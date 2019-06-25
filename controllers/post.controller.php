@@ -97,14 +97,15 @@ require_once 'login_user.controller.php';
             if($loggedIn->isLoggedIn() == false){
                 $loggedIn->isLoggedIn();
             }else{
-                if($post->read_following_post($loggedIn->isLoggedIn() == false)){
+                /*if($post->read_following_post($loggedIn->isLoggedIn()) == false){
                     echo json_encode(array(
                         'message' => 'You are not following a user',
                         'following' => false
                     ));
                 }else{
                     echo json_encode($post->read_following_post($loggedIn->isLoggedIn()));
-                }
+                }*/
+                echo json_encode($post->read_following_post($loggedIn->isLoggedIn()));
             }
         }
 

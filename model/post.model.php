@@ -98,10 +98,11 @@
             $statement->bindParam(':folid', $uid);
            
             if($statement->execute()){
+                
                 if($statement->rowCount() > 0){
-                    return $statement->fetchAll(PDO::FETCH_ASSOC);;
+                    return $statement->fetchAll(PDO::FETCH_ASSOC);
                 }else{
-                    return false;
+                    return $statement->fetchAll(PDO::FETCH_ASSOC);
                 }
             }
         }
