@@ -42,12 +42,17 @@
 
             else{
                 if($signup->create()){
-                    echo json_encode(array('message' => 'Account created please verify your email to login.'));
+                    echo json_encode(array(
+                        'message' => 'Account created please verify your email to login.',
+                        'errorFlag' => false,
+                        'success' => 1
+                    ));
                     http_response_code(201);
                 }else if(!$signup->create()){
                     echo json_encode(array(
-                        'error' => 'Email already exist',
-                        'errorFlag' => true
+                        'message' => 'Email already exist',
+                        'errorFlag' => true,
+                        'success' => 0
                     ));
                     return false;
                 }
