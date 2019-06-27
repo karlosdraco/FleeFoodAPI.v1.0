@@ -66,6 +66,7 @@ class OrderController{
             if($order->readMyOrder($_GET['id']) == false){
                 echo json_encode(
                     array(
+                        'count'=> 0,
                         'message' => "You have no order"
                     )
                 );
