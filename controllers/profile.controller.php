@@ -22,8 +22,8 @@
                 if(isset($_GET['name']) && isset($_GET['id'])){
                     if($fetchProfileData->readUserName($_GET['name'], $_GET['id'])){
                         $dataTemp = array(
-                            'followers' => $follow->showFollowers($_GET['name'], $verified_user->isLoggedIn()), 
-                            'following' => $follow->showFollowing($_GET['name'], $verified_user->isLoggedIn()),
+                            'followers' => $follow->showFollowers($_GET['name'], $_GET['id']), 
+                            'following' => $follow->showFollowing($_GET['name'], $_GET['id']),
                             'followerCount' => $follow->followerCount(),
                             'followingCount' => $follow->followingCount(),
                             'requestOrderCount' => $order->getRequestCount($_GET['id'])
@@ -71,6 +71,7 @@
             $fetchProfileData->gender = $auth->sanitize($data->gender);
 
             if($fetchProfileData->create($uid)){
+                
                if($fetchProfileData->update($uid)){
                 echo json_encode(
                     array(

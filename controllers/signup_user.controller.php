@@ -42,7 +42,7 @@
 
             else{
                 if($signup->create()){
-                    echo json_encode(array('message' => 'Account created'));
+                    echo json_encode(array('message' => 'Account created please verify your email to login.'));
                     http_response_code(201);
                 }else if(!$signup->create()){
                     echo json_encode(array(

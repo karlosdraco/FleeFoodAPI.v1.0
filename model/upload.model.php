@@ -18,25 +18,49 @@
 
             if($statement->execute()){
                 if($statement->rowCount() > 0){
-                    $statement = $this->conn->query("UPDATE users, user_info 
-                    SET users.profile_image=:imgPath, user_info.profile_image=:imgPath
-                    WHERE users.id = user_info.user_id 
-                    AND users.id=:uid");
+                  
+                    $statement = $this->conn->query("SELECT user_id FROM user_info WHERE user_id=:uid");
                     $statement->bindParam(':uid', $uid);
-                    $statement->bindParam(':imgPath', $keyname);
 
                     if($statement->execute()){
-                        $statement = $this->conn->query("INSERT INTO profile_image(image_link, user_id) 
-                        VALUES(:imgPath, :uid);");
-                        $statement->bindParam(':uid', $uid);
-                        $statement->bindParam(':imgPath', $keyname);
-                        $statement->execute();
+                        if($statement->rowCount() > 0){
+                            $statement = $this->conn->query("UPDATE users, user_info 
+                            SET users.profile_image=:imgPath, user_info.profile_image=:imgPath
+                            WHERE users.id = user_info.user_id 
+                            AND users.id=:uid");
+
+                            $statement->bindParam(':uid', $uid);
+                            $statement->bindParam(':imgPath', $keyname);
+                            $statement->execute();
+                               
+                        }else{
+                            $statement = $this->conn->query("INSERT INTO user_info(user_id, profile_image) 
+                            VALUES(:uid, :img);");
+                            $statement->bindParam(':uid', $uid);
+                            $statement->bindParam(':img', $keyname);
+
+                            if($statement->execute()){
+                                $statement = $this->conn->query("UPDATE users
+                                SET profile_image=:imgPath
+                                WHERE id = :uid");
+
+                                $statement->bindParam(':uid', $uid);
+                                $statement->bindParam(':imgPath', $keyname);
+                                $statement->execute();
+                            }
+                        }
+                    }
+
+                    $statement = $this->conn->query("INSERT INTO profile_image(image_link, user_id) 
+                    VALUES(:imgPath, :uid);");
+                    $statement->bindParam(':uid', $uid);
+                    $statement->bindParam(':imgPath', $keyname);
+                    $statement->execute();
                     }
                 }
             }
-        }
+        
 
-      
         public function uploadFoodPostGallery($uid, $keyname){
 
             $this->FoodName = $_SESSION['food_name'];
@@ -74,6 +98,4 @@
             }
         }
 
-        
-        
     }

@@ -40,6 +40,7 @@
               $statement->bindParam(':email', $this->email);
               $statement->bindParam(':contact', $this->contact);
               $statement->bindParam(':verified', $defaultValue);
+              
               $statement->execute();
                 
               //PASS EMAIL TO VERIFICATION KEY

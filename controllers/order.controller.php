@@ -63,14 +63,16 @@ class OrderController{
             $verified_user->isLoggedIn();
         }else{
 
-            if($order->readMyOrder($verified_user->isLoggedIn() == false)){
+            if($order->readMyOrder($_GET['id']) == false){
                 echo json_encode(
                     array(
                         'message' => "You have no order"
                     )
                 );
             }else{
-                echo json_encode($order->readMyOrder($verified_user->isLoggedIn()));
+                if(isset($_GET['id'])){
+                    echo json_encode($order->readMyOrder($_GET['id']));
+                }
             }
             
         }
