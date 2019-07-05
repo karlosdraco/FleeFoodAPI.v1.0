@@ -1,9 +1,11 @@
 <?php
    require_once './model/user.model.php';
+   require_once 'login_user_controller.php';
+   require_once '/classes/input-authentication.php';
 
     class user{
         
-        //**************************************************/
+        //**************************************************//
         public function signup(){
             $signup = new user_model();
 
@@ -37,13 +39,14 @@
                 }
             }
         }
-        //*************************************************/
+        //*************************************************//
 
 
         public function fetch_user_data(){
             $fetch = new user_model();
             echo json_encode($fetch->read());
         }
+
 
         public function fetch_single_data(){
             $fetch = new user_model();
@@ -61,4 +64,31 @@
                 http_response_code(404);
             }
         }
+
+
+        public function update_user_data(){
+            $update = new user_model();
+            $loggedIn = new login_user();
+            $sanitize = new inputAuthentication();
+
+
+            $uid = $loggedIn->isLoggedIn();
+
+            $data = json_decode(file_get_contents("php://input"));
+            
+            $update->firstname = $sanitize->sanitize($data->firstname);
+            $update->lastname = $sanitize->sanitize($data->lastname);
+            $update->contact = $sanitize->sanitize($data->contact);
+
+            if(!preg_match("/^[a-zA-Z]*$/", $update->firstname) || !preg_match("/^[a-zA-Z]*$/", $update->lastname)){
+                echo json_encode(array('error' => 'Invalid name'));
+            }else if(!preg_match("/^[0-9]*$/", $update->contact)){
+                echo json_encode(array('error' => 'Invalid number'));
+            }else{
+                $update->update($uid);
+            }
+        }
+
+
+        
     }

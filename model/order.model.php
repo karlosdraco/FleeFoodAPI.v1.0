@@ -74,7 +74,7 @@ class Order{
         $statement = $this->conn->query("SELECT orders.id, orders.food_id, orders.buyer_id, orders.user_id, orders.price,orders.request, orders.quantity,
                                         DATE_FORMAT(orders.order_date, '%W %M %e %Y') AS order_date, users.firstname, users.lastname, users.contact, users.profile_image, food_post.food_name, food_post.currency
                                         ,food_post.food_price, food_image_gallery.image_link FROM orders
-                                        RIGHT JOIN users ON orders.buyer_id = users.id
+                                        RIGHT JOIN users ON orders.user_id = users.id
                                         RIGHT JOIN food_post ON orders.food_id = food_post.id
                                         RIGHT JOIN food_image_gallery ON food_post.id = food_image_gallery.food_id
                                         WHERE orders.buyer_id=:bid ORDER BY orders.order_date DESC");

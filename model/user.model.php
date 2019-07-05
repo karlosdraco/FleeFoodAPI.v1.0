@@ -80,7 +80,12 @@
        }
         //**********READ SINGLE**********//
        public function update($id){
-         $statement = $this->conn->query("UPDATE users SET firstname=:fname,lastname=:lname,email=:email,contact=:contact WHERE id=:id");
+         $statement = $this->conn->query("UPDATE users SET firstname=:fname,lastname=:lname,contact=:contact WHERE id=:id");
+         $statement->bindParam(':id', $id);
+         $statement->bindParam(':fname', $this->firstname);
+         $statement->bindParam(':lname', $this->lastname);
+         $statement->bindParam(':contact', $this->contact);
+         $statement->execute();
        }
      
     }
