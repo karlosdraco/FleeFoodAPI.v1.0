@@ -74,15 +74,14 @@ require_once './config/DB.php';
 
        
         public function updateFetching($loggedUserId){
-
             $fetch = 1;
             $statement = $this->conn->query("UPDATE notifications SET fetched=:fetch WHERE user_id=:uid");
             $statement->bindParam(':fetch', $fetch);
             $statement->bindParam(':uid', $loggedUserId);
-            
             $statement->execute();
-         
         }
+
+        
 
 
 

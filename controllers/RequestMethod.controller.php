@@ -13,6 +13,7 @@ require_once 'controllers/upload.controller.php';
 require_once 'controllers/post.controller.php';
 require_once 'controllers/follow.controller.php';
 require_once 'controllers/order.controller.php';
+require_once 'controllers/report.controller.php';
 
 //MODEL
 require_once "./model/login_user.model.php";
@@ -168,4 +169,8 @@ $api->put("orders", function(){
 //END REQUEST ORDER ENDPOINT
 /*********************************ORDER CRUD*****************************************/
 
-
+/*********************************REPORT CRUD*****************************************/
+$api->post("report", function(){
+    $reportController = new ReportController();
+    $reportController->report();
+});
