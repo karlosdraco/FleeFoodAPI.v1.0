@@ -31,8 +31,8 @@ require_once 'login_user.controller.php';
 
                     
             if(!$auth->isEmpty($post->foodName) || !$auth->isEmpty($post->foodDesc) 
-                || !$auth->isEmpty($post->foodPrice) || !$auth->isEmpty($post->foodCurrency)
-                || !$auth->isEmpty($post->foodAvailability) || !$auth->isEmpty($post->deliveryFee)
+                || !$auth->varSet($post->foodPrice) || !$auth->isEmpty($post->foodCurrency)
+                || !$auth->isEmpty($post->foodAvailability) || !$auth->varSet($post->deliveryFee)
                 || !$auth->isEmpty($post->address1) || !$auth->isEmpty($post->address2)){
  
                  echo json_encode(array(
