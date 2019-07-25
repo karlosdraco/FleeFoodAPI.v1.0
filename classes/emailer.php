@@ -35,7 +35,17 @@
         public function emailer($email, $firstname){
             $mail = new PHPMailer(true);
             $verificationLink = "http://localhost/fleefood_API/user_email_verification?email=$email&email_verification_key=$this->vkey";
-          
+            $emailContent = "
+            <div style='width: 800px; background-color: #ffe228; padding: 5px; margin-bottom: 20px;'><h3 style='color: #ffffff; font-size: 30px; margin: 10px;'>FleeFood</h3></div>
+            <div style='width: 800px; font-family: helvetica; font-size: 15px'>
+            Hi ".$firstname." Welcome to <strong>FleeFood</strong> please click the link
+            to verify your email <a style='color:  #57baf3;' 
+            href='http://localhost/fleefood_API/user_email_verification?email=$email&email_verification_key=$this->vkey'>
+            $verificationLink</a>
+            </div>
+            ";
+
+
             try{
                 $mail->isSMTP();
                 $mail->SMTPAuth = true;
@@ -48,8 +58,7 @@
                 $mail->addAddress($email, $firstname);
                 $mail->Subject = "FleeFood email verification";
                 $mail->isHTML(true);
-                $mail->Body = "Hi ".$firstname." Welcome to <strong>FleeFood</strong> please click the button
-                to verify your email <a style='color:  #57baf3;' href='http://localhost/fleefood_API/user_email_verification?email=$email&email_verification_key=$this->vkey'>$verificationLink</a>";
+                $mail->Body = $emailContent;
                 $mail->send();
             }catch (Exception $e)
             {

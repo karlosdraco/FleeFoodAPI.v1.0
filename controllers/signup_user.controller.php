@@ -43,7 +43,7 @@
             else{
                 if($signup->create()){
                     echo json_encode(array(
-                        'message' => 'Account created please verify your email to login.',
+                        'message' => "Account created please verify your email to login, if you didn't see the email in inbox check the spam folder.",
                         'errorFlag' => false,
                         'success' => 1
                     ));
