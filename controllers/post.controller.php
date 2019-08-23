@@ -23,6 +23,7 @@ require_once 'login_user.controller.php';
              $post->foodName = $data->foodName;
              $post->foodDesc = $auth->sanitize($data->foodDescription);
              $post->foodPrice = $auth->sanitize($data->foodPrice);
+             $post->foodQuantity = $auth->sanitize($data->foodQuantity);
              $post->foodCurrency = $auth->sanitize($data->currency);
              $post->foodAvailability = $auth->sanitize($data->foodAvailability);
              $post->deliveryFee = $auth->sanitize($data->deliveryFee);
@@ -31,7 +32,7 @@ require_once 'login_user.controller.php';
 
                     
             if(!$auth->isEmpty($post->foodName) || !$auth->isEmpty($post->foodDesc) 
-                || !$auth->varSet($post->foodPrice) || !$auth->isEmpty($post->foodCurrency)
+                || !$auth->varSet($post->foodPrice) || !$auth->varSet($post->foodQuantity) || !$auth->isEmpty($post->foodCurrency)
                 || !$auth->isEmpty($post->foodAvailability) || !$auth->varSet($post->deliveryFee)
                 || !$auth->isEmpty($post->address1) || !$auth->isEmpty($post->address2)){
  
@@ -122,6 +123,7 @@ require_once 'login_user.controller.php';
             $post->foodName = $data->foodName;
             $post->foodDesc = $auth->sanitize($data->foodDesc);
             $post->foodPrice = $auth->sanitize($data->foodPrice);
+            $post->foodQuantity = $auth->sanitize($data->foodQuantity);
             $post->foodCurrency = $auth->sanitize($data->foodCurrency);
             $post->foodAvailability = $auth->sanitize($data->foodAvailability);
             $post->deliveryFee = $auth->sanitize($data->foodDelivery);
@@ -129,7 +131,7 @@ require_once 'login_user.controller.php';
             $post->address2 = $auth->sanitize($data->foodAdd2);
 
             if(!$auth->isEmpty($post->foodName) || !$auth->isEmpty($post->foodDesc) 
-                || !$auth->varSet($post->foodPrice) || !$auth->isEmpty($post->foodCurrency)
+                || !$auth->varSet($post->foodPrice) || $auth->varSet($post->foodQuantity) || !$auth->isEmpty($post->foodCurrency)
                 || !$auth->varSet($post->foodAvailability) || !$auth->varSet($post->deliveryFee)
                 || !$auth->isEmpty($post->address1) || !$auth->isEmpty($post->address2)){
                  echo json_encode(array(

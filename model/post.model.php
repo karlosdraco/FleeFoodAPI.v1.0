@@ -12,6 +12,7 @@
         public $foodDesc;
         public $foodPrice;
         public $foodCurrency;
+        public $foodQuantity;
         public $foodAvailability;
         public $deliveryFee;
         public $address1;
@@ -28,13 +29,14 @@
         public function create_post(){
 
             $statement = $this->conn->query("INSERT INTO food_post(user_id, food_name, food_description, 
-            food_price, food_availability, delivery_type, currency, addressLine1, addressLine2, report, reported, fetched) 
-            VALUES (:uid, :fname, :fdesc, :fprice, :favail, :delFee, :currency, :add1, :add2, report='0', reported='0', fetched='0')");
+            food_price, quantity, food_availability, delivery_type, currency, addressLine1, addressLine2, report, reported, fetched) 
+            VALUES (:uid, :fname, :fdesc, :fprice, :fQty,:favail, :delFee, :currency, :add1, :add2, report='0', reported='0', fetched='0')");
 
             $statement->bindParam(':uid', $this->uid);
             $statement->bindParam(':fname', $this->foodName);
             $statement->bindParam(':fdesc', $this->foodDesc);
             $statement->bindParam(':fprice', $this->foodPrice);
+            $statement->bindParam(':fQty', $this->foodQuantity);
             $statement->bindParam(':currency', $this->foodCurrency);
             $statement->bindParam(':favail', $this->foodAvailability);
             $statement->bindParam(':delFee', $this->deliveryFee);
@@ -108,7 +110,7 @@
         }
 
         public function update_post(){
-            $statement = $this->conn->query("UPDATE food_post SET food_name=:fn, food_description=:fd, food_price=:fp,
+            $statement = $this->conn->query("UPDATE food_post SET food_name=:fn, food_description=:fd, food_price=:fp, quantity=:fq,
             food_availability=:fa, delivery_type=:dt, currency=:fc, addressLine1=:add1, addressLine2=:add2 WHERE id=:fid AND user_id=:uid");
             
             $statement->bindParam(':fid', $this->foodId);
@@ -116,6 +118,7 @@
             $statement->bindParam(':fn', $this->foodName);
             $statement->bindParam(':fd', $this->foodDesc);
             $statement->bindParam(':fp', $this->foodPrice);
+            $statement->bindParam('fq', $this->foodQuantity);
             $statement->bindParam(':fa', $this->foodAvailability);
             $statement->bindParam(':dt', $this->deliveryFee);
             $statement->bindParam(':fc', $this->foodCurrency);
